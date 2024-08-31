@@ -9,6 +9,7 @@ module.exports = merge(common, {
     app: ['webpack-hot-middleware/client', path.resolve(__dirname, '../src/index.js')]
   },
   devtool: 'inline-source-map',
+  watch: true,
   devServer: {
     static: path.resolve(__dirname, '../dist'),
     host: 'localhost',

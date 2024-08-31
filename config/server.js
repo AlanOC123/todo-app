@@ -22,6 +22,8 @@ app.use(
 
 app.use(webpackHotMiddleware(compiler));
 
+console.log('Starting server setup...');
+
 app.listen(portNumber, function(err) {
   if (err) {
     console.log(`Error launching server. Error: ${err}`);
