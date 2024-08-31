@@ -2,6 +2,7 @@ const express = require('express');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const path = require('path');
 
 const app = express();
 
@@ -22,7 +23,11 @@ app.use(
 
 app.use(webpackHotMiddleware(compiler));
 
-console.log('Starting server setup...');
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../src/index.html'));
+})
+
+
 
 app.listen(portNumber, function(err) {
   if (err) {
