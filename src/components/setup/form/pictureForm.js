@@ -2,58 +2,46 @@ import '../../../styles/common.css';
 import '../../../styles/setup.css';
 import placeholder from '../../../assets/placeholder-image.jpeg';
 import pictureInput from '../../common/pictureInput';
-import { createElement } from '../../../utils/classes/elementFactory';
+import createElement from '../../../utils/classes/createElement';
+import ElementData from '../../../utils/classes/ElementData';
 
 export default (function pictureForm() {
-	const elementData = {
-		container: {
-			className: 'picture-form',
-			attributes: {
-				id: 'picture-form',
-			},
+	const textData = new ElementData(
+		'p',
+		'picture-form-text font-body flex flex-center',
+		{
+			id: 'picture-form',
 		},
-		text: {
-			className: 'picture-form-text font-body flex flex-center',
-			attributes: {
-				id: 'picture-form',
-			},
+		[]
+	).createElementData();
+
+	const containerData = new ElementData(
+		'div',
+		'picture-form',
+		{
+			id: 'picture-form',
 		},
-	};
+		[
+			pictureInput.render(),
+			createElement(textData)
+		]
+	).createElementData();
 
 	function render() {
-		const { container, text } = elementData;
-		const pictureElement = pictureInput.render();
-		const children = Array.from(pictureElement.children);
-    const textElement = createElement('p', text.className.split(' '), text.attributes);
-    textElement.textContent = 'Upload Image';
-		if (!Array.isArray(children)) {
-			console.warn(`Error parsing children. Children: ${children}`);
-		}
-		let label = children.filter(
-			(child) => child.tagName.toLowerCase() === 'label'
-		);
+		const element = createElement(containerData)
+		let children = Array.from(element.children);
+		if (!Array.isArray(children) || !children) {
+			console.error(`Children not found. Reading: ${children}`);
+		};
+		children = Array.from(children[0].children);
+		const label = children[1];
+		label.style.backgroundImage = `url(${placeholder})`;
 
-		if (label.length !== 1) {
-			console.warn(`Error parsing label. Label: ${label}`);
-		} else {
-			label = label[0];
-		}
-
-		label.style.backgroundImage = `url(${placeholder}`;
-
-		return createElement(
-			'div',
-			container.className.split(' '),
-			container.attributes,
-			[
-				pictureElement,
-				textElement,
-			]
-		);
+		return element;
 	}
 
 	return {
-		elementData,
+		containerData,
 		render,
 	};
 })();

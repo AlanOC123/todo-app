@@ -1,21 +1,24 @@
 import '../../styles/common.css';
-import { createElement } from '../../utils/classes/elementFactory';
+import createElement from '../../utils/classes/createElement';
+import ElementData from '../../utils/classes/ElementData';
 
 export default (function rootPage() {
-	const elementData = {
-		id: 'app',
-		className: 'flex flex-center relative',
-	};
+	const containerData = new ElementData(
+		'div',
+		'full flex flex-center relative',
+		{
+			id: 'app',
+		},
+		[]
+	).createElementData();
 
 	function render() {
-		const { id, className } = elementData;
 		const root = document.body;
-		const element = createElement('div', className.split(' '), { id });
-		root.appendChild(element);
+		root.appendChild(createElement(containerData));
 	}
 
 	return {
-		elementData,
+		containerData,
 		render,
 	};
 })();

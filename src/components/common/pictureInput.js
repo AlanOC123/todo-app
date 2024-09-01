@@ -1,43 +1,49 @@
 import '../../styles/common.css';
-import { createElement } from '../../utils/classes/elementFactory';
+import createElement from '../../utils/classes/createElement';
+import ElementData from '../../utils/classes/ElementData';
 
 export default (function pictureInput() {
-	const elementData = {
-		container: {
-			className: 'flex flex-center',
+
+	const inputData = new ElementData(
+		'input',
+		'hidden',
+		{
+			type: 'file',
+			id: 'picture-input',
+			accept: 'image/*',
+			name: 'picture-input',
 		},
-		label: {
-			className: 'flex flex-center picture-preview',
-			attributes: {
-				id: 'picture-input-label',
-				for: 'picture-input',
-			},
+		[]
+	).createElementData();
+
+	const labelData = new ElementData(
+		'label',
+		'picture-preview shadow',
+		{
+			id: 'picture-input-label',
+			for: 'picture-input',
 		},
-		input: {
-			className: 'hidden',
-			attributes: {
-				type: 'file',
-				id: 'picture-input',
-				accept: 'image/*',
-				name: 'picture-input',
-			},
-		},
-	};
+		[]
+	).createElementData();
+
+	const containerData = new ElementData(
+		'div',
+		'flex flex-center full',
+		{},
+		[ 
+			createElement(inputData),
+			createElement(labelData)
+		],
+	).createElementData();
 
 	function render() {
-		const { container, label, input } = elementData;
-		return createElement('div', container.className.split(' '), {}, [
-			createElement(
-				'label',
-				label.className.split(' '),
-				label.attributes
-			),
-			createElement('input', input.className, input.attributes),
-		]);
+		return createElement(containerData);
 	}
 
 	return {
-		elementData,
+		containerData,
+		inputData,
+		labelData,
 		render,
 	};
 })();

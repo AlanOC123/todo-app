@@ -1,18 +1,17 @@
 import '../../../styles/setup.css';
 import createElement from '../../../utils/classes/createElement';
 import ElementData from '../../../utils/classes/ElementData';
-import progressBar from './progressBar';
-import pictureForm from './pictureForm';
-import nameInputForm from './nameInputForm';
+import welcomeMessage from './welcomeMessage';
+import themeSelection from './themeSelection';
 
-export default (function form() {
+export default (function hero() {
 	const containerData = new ElementData(
 		'div',
-		'setup-form',
+		'setup-hero rounded-l shadow',
 		{
-			id: 'setup-form',
+			id: 'setup-hero'
 		},
-		[pictureForm.render(), nameInputForm.render(), progressBar.render()]
+		[welcomeMessage.render(), themeSelection.render()]
 	).createElementData();
 
 	function render() {
