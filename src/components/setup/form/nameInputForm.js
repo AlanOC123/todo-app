@@ -1,6 +1,7 @@
 import '../../../styles/setup.css';
 import createElement from '../../../utils/classes/createElement';
 import ElemenData from '../../../utils/classes/ElementData';
+import nameInput from '../../common/nameInput';
 
 export default (function nameInputForm() {
 	const containerData = new ElemenData(
@@ -9,11 +10,14 @@ export default (function nameInputForm() {
 		{
 			id: 'name-form'
 		},
-		[]
+		[nameInput.render()]
 	).createElementData()
 
 	function render() {
-		return createElement(containerData);
+		
+		const element = createElement(containerData);
+
+		return element;
 	}
 
 	return {

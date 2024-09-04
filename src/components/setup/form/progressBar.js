@@ -14,7 +14,9 @@ export default (function setupProgress() {
 	).createElementData()
 
 	function render() {
-		return createElement(containerData);
+		const element = createElement(containerData);
+
+		return element;
 	}
 
 	return {

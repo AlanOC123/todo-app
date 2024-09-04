@@ -4,11 +4,10 @@ import ElementData from '../../utils/classes/ElementData.js';
 
 export default (function progressbar() {
 	const textData = new ElementData(
-		'text',
-		'font-body percentage',
+		'p',
+		'font-card-title percentage',
 		{
-			x: "18",
-			y: "20.35",
+			id: 'progress-percent'
 		},
 		[],
 	).createElementData();
@@ -40,7 +39,6 @@ export default (function progressbar() {
 		[
 			createElement(trackData),
 			createElement(circleData),
-			createElement(textData),
 		],
 	).createElementData();
 
@@ -48,7 +46,7 @@ export default (function progressbar() {
 		'div',
 		'progress-container',
 		{},
-		[createElement(svgData)],
+		[createElement(svgData), createElement(textData)],
 	).createElementData();
 
 	function render() {

@@ -10,7 +10,8 @@ const events = {
   renderStats: 'stats',
   renderDashboard: 'dashboard',
   openSettings: 'settings',
-  startSetup: 'setup'
+  startSetup: 'setup',
+  setupUpdated: 'setupUpdated'
 };
 
 export default events;

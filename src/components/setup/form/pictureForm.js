@@ -23,7 +23,6 @@ export default (function pictureForm() {
 		},
 		[
 			pictureInput.render(),
-			createElement(textData)
 		]
 	).createElementData();
 
