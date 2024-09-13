@@ -18,12 +18,20 @@ export default function createElement({
 		className = className.split(' ');
 	}
 
-	className.forEach((classItem) => addClass(element, classItem));
+	if (namespace) {
+		element.setAttribute('class', className.join(' '))
+	} else {
+		className.forEach((classItem) => addClass(element, classItem));
+	}
 
 	if (isValidAttributeObject(attributes)) {
 		Object.keys(attributes).forEach((attribute) => {
 			if (isValidAttributeProperty(attributes, attribute)) {
-				element.setAttribute(attribute, attributes[attribute]);
+				if (namespace && isSVGAttribute(attribute)) {
+					element.setAttributeNS(null, attribute, attributes[attribute])
+				} else {
+					element.setAttribute(attribute, attributes[attribute]);
+				}
 			}
 		});
 	}
@@ -78,6 +86,11 @@ function isSVGType(type) {
 		'polygon',
 		'polyline',
 		'g',
+		'defs',
+		'filter',
+		'feGaussianBlur',
+		'feColorMatrix',
+		'feBlend',
 	].includes(type);
 }
 
@@ -93,6 +106,25 @@ function isValidAttributeProperty(attributes, property) {
 	return (
 		typeof property === 'string' && typeof attributes[property] === 'string'
 	);
+}
+
+function isSVGAttribute(attribute) {
+	return [
+		'fill',
+		'stroke',
+		'viewBox',
+		'xlink:href',
+		'xmlns',
+		'preserveAspectRatio',
+		'width',
+		'height',
+		'in',
+		'stdDeviation',
+		'result',
+		'mode',
+		'values',
+		'in2',
+	].includes(attribute);
 }
 
 function isValidChild(node) {

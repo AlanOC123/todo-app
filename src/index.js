@@ -1,25 +1,25 @@
-import rootPage from './components/common/rootPage';
-import applyTheme from './utils/state-management/applyTheme';
+import './styles/common.css';
+import EventsBus from './utils/events/common/eventBus';
+import events from './utils/events/common/events';
 
 async function runApp() {
-	const { default: storageAPI } = await import('./utils/storageAPI');
+  const { default: applyTheme } = await import(
+    "./utils/stateManagement/common/applyTheme"
+  );
+  const { default: rootPage } = await import("./components/common/rootPage");
+  const { default: timeController } = await import(
+    "./utils/events/common/timeController"
+  );
+	const { default: dashboardPage } = await import('./components/dashboardComponents/dashboardPage');
 
-	if (module.hot) {
-		module.hot.accept();
-		module.hot.dispose(() => {
-			console.clear();
-		});
-	}
+	//timeController().start();
 
-	rootPage.render();
-	applyTheme();
+  rootPage.render();
+	//EventsBus.emit(events.gradientAdded);
+  dashboardPage.render();
 
-	if (!storageAPI.getSettings('init')) {
-		const { default: setup } = await import('./setup');
-		setup();
-	}
 
-	storageAPI.clearSettings();
-};
+  applyTheme();
+}
 
-document.addEventListener('DOMContentLoaded', runApp);
+document.addEventListener("DOMContentLoaded", runApp);

@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config ./config/webpack.prod.js",
     "watch": "webpack --config ./config/webpack.dev.js --watch",
-    "start": "nodemon --watch src --watch config --exec 'node ./config/server.js' --signal SIGINT --inspect --clear",
-    "serve": "node ./config/server.js",
+    "start": "webpack serve --open --config ./config/webpack.dev.js",
+    "serve": "nodemon --watch src --watch config --exec 'node ./config/server.js' --signal SIGINT --inspect --clear",
     "lint": "eslint ./ --config ./eslint.config.mjs"
   },
   "keywords": [],

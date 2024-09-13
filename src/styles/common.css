@@ -1,5 +1,13 @@
 @import url('./css-reset.css');
 @import url('../assets/fonts/lato-font-kit/stylesheet.css');
+@import url('./gradient-animation.css');
+@import url('./productivity-tool.css');
+@import url('./reusable.css');
+@import url('./dashboardStyles//dashboard.css');
+@import url('./dashboardStyles/home.css');
+@import url('./dashboardStyles/projects.css');
+@import url('./dashboardStyles/tasks.css');
+@import url('./dashboardStyles/stats.css');
 
 :root {
   --pri-clr: ;
@@ -7,12 +15,40 @@
   --high-clr: ;
   --contrast-clr: ;
   --text-clr: ;
-  --not-started-clr: ;
-  --started-clr: ;
-  --complete-clr: ;
+  --dec-clr-1: ;
+  --dec-clr-2: ;
+  --dec-clr-3: ;
+  --dec-clr-4: ;
+  --dec-clr-5: ;
+  --circle-size: 80%;
+  --blending: hard-light;
+  --not-started-clr: 239, 83, 80;
+  --started-clr: 255, 213, 79;
+  --complete-clr: 129, 199, 132;
 }
 
 /* Flex Utils */
+
+.app {
+  background: 
+  linear-gradient(
+    45deg, 
+    rgba(var(--pri-clr), 1) 0%, 
+    rgba(var(--high-clr), 1) 55%,
+    rgba(var(--contrast-clr), 1) 100%
+  ),
+  radial-gradient(
+    circle,
+    rgba(var(--pri-clr), 0.5),
+    rgba(var(--high-clr), 0.5),
+    rgba(var(--contrast-clr), 0.5)
+  );
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 0;
+  background-blend-mode: var(--blending);
+}
 
 .flex {
   display: flex;
@@ -199,20 +235,21 @@ body, p {
 
 .button {
   font-family: 'latobold', sans-serif;
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 700;
   text-transform: uppercase;
   padding: 0.75rem 1.5rem;
   color: #fff;
   background-color: rgba(var(--pri-clr), 1);
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.6, 0.45, 0.07, 2.01);
 }
 
 .button:hover {
   background-color: rgba(var(--pri-clr), 0.8);
+  transform: translateY(-1rem);
 }
 
 .button:active {
@@ -346,7 +383,7 @@ body, p {
 }
 
 .font-heading {
-  font-size: 6rem;
+  font-size: 6.4rem;
   font-weight: 900;
   font-family: 'latobold';
   letter-spacing: 0.4rem;
@@ -364,7 +401,7 @@ body, p {
 }
 
 .font-card-title {
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 500;
   font-family: 'latoregular';
   letter-spacing: 0.2rem;
@@ -373,7 +410,7 @@ body, p {
 }
 
 .font-body {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 400;
   font-family: 'latoregular';
   color: rgba(var(--text-clr));
@@ -485,6 +522,7 @@ body, p {
   align-items: center;
 
   height: 25%;
+  pointer-events: none;
 }
 
 .theme-card:hover {
@@ -546,41 +584,66 @@ body, p {
   opacity: 1;
 }
 
-.name-input {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 50%;
+.input-area {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 
-  padding: 0.5rem;
-  border-radius: 1rem;
-  border: none;
+.name-input-area {
+  flex: 1 1 85%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.name-input {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 1rem;
   outline: none;
+  border: none;
+  background-color: transparent;
+  border-left: 0.5rem solid transparent;
+  border-bottom-left-radius: 1rem;
+  z-index: 1;
+}
+
+.name-input:focus {
+  border-left: 0.5rem solid rgba(var(--high-clr), 1);
+  border-bottom: 0.5rem solid rgba(var(--high-clr), 1);
+}
+
+.name-input:focus,
+.name-input:focus + .label-line {
+  color: rgba(var(--high-clr), 1);
+}
+
+.name-input:focus +.label-line {
+  top: 0%;
+  font-size: 1.2rem;
+}
+
+.label-line {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 2rem;
 }
 
 .name-label {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 95%;
-  background-color: rgba(var(--pri-clr), 1);
-  padding: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  text-align: center;
-}
+  flex: 1 1 15%;
+  justify-content: center;
+  align-items: center;
 
-#edit-icon {
-  font-size: 1.6rem;
-  color: rgba(var(--text-clr));
-  transition: all 0.5s cubic-bezier(0.215, 0.610, 0.355, 1);
+  width: 100%;
   cursor: pointer;
 }
 
-#edit-icon:hover {
-  color: rgba(var(--sec-clr));
-}
-
-.icon-container {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 10%;
+.name-label:hover > svg {
+  color: rgba(var(--high-clr));
 }

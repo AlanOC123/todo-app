@@ -1,11 +1,12 @@
-import '../../styles/common.css';
 import createElement from '../../utils/classes/createElement';
 import ElementData from '../../utils/classes/ElementData';
+import gradientAnimation from './gradientAnimation';
 
 export default (function rootPage() {
+
 	const containerData = new ElementData(
 		'div',
-		'full flex flex-center relative',
+		'app',
 		{
 			id: 'app',
 		},

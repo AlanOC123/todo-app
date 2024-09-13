@@ -6,7 +6,7 @@ const common = require('./webpack.common');
 module.exports = merge(common, {
   mode: 'development',
   entry: {
-    app: ['webpack-hot-middleware/client', path.resolve(__dirname, '../src/index.js')]
+    app: [path.resolve(__dirname, '../src/index.js')]
   },
   devtool: 'inline-source-map',
   watch: true,
@@ -14,9 +14,13 @@ module.exports = merge(common, {
     static: path.resolve(__dirname, '../dist'),
     host: 'localhost',
     port: '3000',
+    hot: true,
+    open: true,
+    historyApiFallback: true,
     client: {
       overlay: true,
     },
+    compress: true,
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
