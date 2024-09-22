@@ -1,4 +1,4 @@
-class EventBusClass {
+class EventBus {
   constructor() {
     this.events = {};
   };
@@ -10,6 +10,7 @@ class EventBusClass {
 
   off = (eventName, fnToRemove) => {
     const listeners = this.events[eventName];
+    console.log(listeners);
 
     if (!fnToRemove) {
       delete this.events[eventName];
@@ -32,6 +33,4 @@ class EventBusClass {
   }
 };
 
-const EventsBus = new EventBusClass();
-
-export default EventsBus;
+export default EventBus;

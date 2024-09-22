@@ -55,11 +55,11 @@
   display: none;
 }
 
-.g1,
-.g2,
-.g3,
-.g4,
-.g5 {
+.complex-g1,
+.complex-g2,
+.complex-g3,
+.complex-g4,
+.complex-g5 {
   position: absolute;
   width: var(--circle-size);
   height: var(--circle-size);
@@ -68,8 +68,8 @@
   opacity: 1;
 }
 
-.g1 {
-  background: radial-gradient(circle at center, rgba(var(--dec-clr-1), 0.8) 0, rgba(var(--dec-clr-1), 0) 50%);
+.complex-g1 {
+  background: radial-gradient(circle at center, rgba(var(--ex-clr-1), 0.8) 0, rgba(var(--ex-clr-1), 0) 50%);
   top: calc(50% - var(--circle-size) / 2);
   left: calc(50% - var(--circle-size) / 2);
 
@@ -77,32 +77,32 @@
   animation: moveVertical 30s ease infinite alternate-reverse;
 }
 
-.g2 {
-  background: radial-gradient(circle at center, rgba(var(--dec-clr-2), 0.8) 0, rgba(var(--dec-clr-2), 0) 50%);
+.complex-g2 {
+  background: radial-gradient(circle at center, rgba(var(--ex-clr-2), 0.8) 0, rgba(var(--ex-clr-2), 0) 50%);
   top: calc(50% - var(--circle-size) / 2 + 25%);
   left: calc(50% - var(--circle-size) / 2 + 25%);
   transform-origin: calc(50% - 25%);
   animation: moveInCircle 30s ease infinite alternate;
 }
 
-.g3 {
-  background: radial-gradient(circle at center, rgba(var(--dec-clr-3), 0.8) 0, rgba(var(--dec-clr-3), 0) 50%);
+.complex-g3 {
+  background: radial-gradient(circle at center, rgba(var(--ex-clr-3), 0.8) 0, rgba(var(--ex-clr-3), 0) 50%);
   top: calc(50% - var(--circle-size) / 2 - 25%);
   left: calc(50% - var(--circle-size) / 2 - 25%);
   transform-origin: calc(50% - 25%);
   animation: moveInCircle 40s ease infinite alternate-reverse;
 }
 
-.g4 {
-  background: radial-gradient(circle at center, rgba(var(--dec-clr-4), 0.8) 0, rgba(var(--dec-clr-4), 0) 50%);
+.complex-g4 {
+  background: radial-gradient(circle at center, rgba(var(--ex-clr-4), 0.8) 0, rgba(var(--ex-clr-4), 0) 50%);
   top: calc(50% - var(--circle-size) / 2 + 25%);
   left: calc(50% - var(--circle-size) / 2 - 25%);
   transform-origin: calc(50% - 25%);
   animation: moveHorizontal 30s ease infinite alternate;
 }
 
-.g5 {
-  background: radial-gradient(circle at center, rgba(var(--dec-clr-5), 0.8) 0, rgba(var(--dec-clr-5), 0) 50%);
+.complex-g5 {
+  background: radial-gradient(circle at center, rgba(var(--ex-clr-5), 0.8) 0, rgba(var(--ex-clr-5), 0) 50%);
   top: calc(50% - var(--circle-size) / 2 - 25%);
   left: calc(50% - var(--circle-size) / 2 + 25%);
   transform-origin: calc(50% - 25%);
@@ -111,7 +111,7 @@
 
 .interactive {
   position: absolute;
-  background: radial-gradient(circle at center, rgba(var(--high-clr), 0.8) 0, rgba(var(--high-clr), 0) 50%);
+  background: radial-gradient(circle at center, rgba(var(--acc-clr), 0.8) 0, rgba(var(--acc-clr), 0) 50%);
   mix-blend-mode: var(--blending);
 
   width: 100%;

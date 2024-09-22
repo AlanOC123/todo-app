@@ -1,46 +1,42 @@
 import createElement from "../../../utils/classes/createElement";
 import ElementData from "../../../utils/classes/ElementData";
 
-export default (function homeCard() {
+export default function createNavListItem(icon, text, id) {
+
   const textData = new ElementData(
     'p',
-    'card-text font-body', 
+    'nav-item-text',
     {},
-    ['Home']
+    [ text ]
   ).createElementData();
 
   const iconData = new ElementData(
-    'i', 
-    'fa-solid fa-house fa-lg',
+    'div',
+    `icon ${icon}`,
     {},
     []
   ).createElementData();
 
   const iconContainerData = new ElementData(
     'div',
-    'card-icon',
-    {},
+    'icon-container',
+    {
+      id: `${id}-icon`
+    },
     [ createElement(iconData) ]
-  )
+  ).createElementData();
 
   const containerData = new ElementData(
     'li',
-    'nav-card',
+    'nav-item',
     {
-      id: 'home-card'
+      id: `${id}-card`
     },
-    [ 
+    [
       createElement(iconContainerData),
-      createElement(textData) 
-    ],
+      createElement(textData)
+    ]
   ).createElementData();
 
-  function render() {
-    return createElement(containerData);
-  }
-
-  return {
-    containerData,
-    render
-  }
-})()
+  return createElement(containerData);
+};

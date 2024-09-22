@@ -1,4 +1,4 @@
-.tasks {
+.calendar {
   width: 0%;
   height: 0%;
   opacity: 0;
@@ -10,7 +10,7 @@
   transform: translate(-50%, -50%);
 }
 
-.tasks.page-active {
+.calendar.page-active {
   width: 100%;
   height: 100%;
   opacity: 1;

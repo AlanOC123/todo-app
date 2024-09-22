@@ -1,4 +1,4 @@
-import EventsBus from "../../events/common/eventBus";
+import EventsManager from "../../events/common/EventsManager";
 import events from "../../events/common/events";
 
 export default function interactWithGradient() {
@@ -25,7 +25,7 @@ export default function interactWithGradient() {
 
   move();
 
-  EventsBus.on(events.gradientRemoved, () => {
+  EventsManager.on(events.complexGradientRemoved, () => {
     window.removeEventListener('mousemove', getCoordinates)
   });
 };

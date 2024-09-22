@@ -1,25 +1,39 @@
-import './styles/common.css';
-import EventsBus from './utils/events/common/eventBus';
-import events from './utils/events/common/events';
+import "./styles/common.css";
+import storageModule from "./utils/dataProcessing/storageModule";
 
 async function runApp() {
-  const { default: applyTheme } = await import(
-    "./utils/stateManagement/common/applyTheme"
-  );
   const { default: rootPage } = await import("./components/common/rootPage");
   const { default: timeController } = await import(
     "./utils/events/common/timeController"
   );
-	const { default: dashboardPage } = await import('./components/dashboardComponents/dashboardPage');
+  const { default: dashboardPage } = await import(
+    "./components/dashboardComponents/dashboardPage"
+  );
+  const { default: EventsManager } = await import(
+    "./utils/events/common/EventsManager"
+  );
+  const { default: events } = await import('./utils/events/common/events');
+  const { default: TimeManager } = await import('./utils/stateManagement/common/TimeManager');
 
-	//timeController().start();
+  EventsManager.on(events.updateTime, TimeManager.updateTime);
 
   rootPage.render();
-	//EventsBus.emit(events.gradientAdded);
+  
   dashboardPage.render();
 
+  const { default: pageRouter } = await import('./utils/events/common/pageRouter');
 
-  applyTheme();
+  EventsManager.emit(events.renderSettings);
+
+  timeController().start();
+
+  pageRouter();
+
+  if (!storageModule.getSettings('init')) {
+    EventsManager.emit(events.renderSettings);
+  } else {
+    EventsManager.emit(events.renderHome);
+  };
 }
 
 document.addEventListener("DOMContentLoaded", runApp);

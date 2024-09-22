@@ -1,4 +1,4 @@
-import EventsBus from "./eventBus";
+import EventsManager from "./EventsManager";
 import events from "./events";
 
 export default function timeController(intervalDuration = 1000) {
@@ -7,7 +7,7 @@ export default function timeController(intervalDuration = 1000) {
   function start() {
     if (interval) return;
     interval = setInterval(() => {
-      EventsBus.emit(events.updateTime, new Date());
+      EventsManager.emit(events.updateTime);
     }, intervalDuration);
   }
 
@@ -19,7 +19,7 @@ export default function timeController(intervalDuration = 1000) {
   }
 
   return {
-    start, 
-    stop
-  }
+    start,
+    stop,
+  };
 }

@@ -38,6 +38,16 @@ export default (function storageModule() {
         { 'Saturday': [] },
       ],
       projects: [],
+      stats: {
+        overdueTasks: [],
+        completeTasks: [],
+        totalTasks: [],
+        commonTasks: [],
+        tasksCompletionRate: '',
+        busiestDay: '',
+        quietestDay: '',
+        highestNumberOfTasks: '',
+      }
     };
 
     saveSettings(defaultSettings);
@@ -52,7 +62,7 @@ export default (function storageModule() {
       return settings;
     };
 
-    const isValidProperty = ['init', 'name', 'image', 'theme', 'tasks', 'projects'].includes(settingProperty);
+    const isValidProperty = ['init', 'name', 'picture', 'theme', 'tasks', 'projects'].includes(settingProperty);
 
     if (isValidProperty) {
       return settings[settingProperty];

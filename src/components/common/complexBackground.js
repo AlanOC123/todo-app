@@ -1,6 +1,6 @@
 import createElement from "../../utils/classes/createElement";
 import ElementData from "../../utils/classes/ElementData";
-import EventsBus from "../../utils/events/common/eventBus";
+import EventsManager from "../../utils/events/common/EventsManager";
 import events from "../../utils/events/common/events";
 import interactWithGradient from "../../utils/stateManagement/common/interactWithGradient";
 
@@ -15,35 +15,35 @@ export default (function gradientAnimation() {
 
   const gradientOneData = new ElementData(
 		'div',
-		'g1',
+		'complex-g1',
 		{},
 		[]
 	).createElementData();
 
   const gradientTwoData = new ElementData(
 		'div',
-		'g2',
+		'complex-g2',
 		{},
 		[]
 	).createElementData();
 
   const gradientThreeData = new ElementData(
 		'div',
-		'g3',
+		'complex-g3',
 		{},
 		[]
 	).createElementData();
 
   const gradientFourData = new ElementData(
 		'div',
-		'g4',
+		'complex-g4',
 		{},
 		[]
 	).createElementData();
 
   const gradientFiveData = new ElementData(
 		'div',
-		'g5',
+		'complex-g5',
 		{},
 		[]
 	).createElementData();
@@ -123,7 +123,7 @@ export default (function gradientAnimation() {
 		'div',
 		'gradient-bg',
 		{
-      id: 'gradient-bg',
+      id: 'complex-bg',
     },
 		[
       createElement(svgData),
@@ -151,6 +151,6 @@ export default (function gradientAnimation() {
     };
   }
 
-  EventsBus.on(events.gradientAdded, render);
-  EventsBus.on(events.gradientRemoved, remove);
+  EventsManager.on(events.complexGradientAdded, render);
+  EventsManager.on(events.complexGradientRemoved, remove);
 })()

@@ -1,6 +1,5 @@
 import createElement from '../../utils/classes/createElement';
 import ElementData from '../../utils/classes/ElementData';
-import gradientAnimation from './gradientAnimation';
 
 export default (function rootPage() {
 

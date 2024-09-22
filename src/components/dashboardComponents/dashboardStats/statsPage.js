@@ -1,21 +1,14 @@
 import createElement from "../../../utils/classes/createElement";
 import ElementData from "../../../utils/classes/ElementData";
 
-export default (function profileCard() {
-  const iconData = new ElementData(
-    'i', 
-    'profile-picture',
-    {},
-    []
-  ).createElementData();
-
+export default (function statsPage() {
   const containerData = new ElementData(
-    'li',
-    'nav-card',
+    "div",
+    "stats",
     {
-      id: 'profile-card'
+      id: "stats",
     },
-    [ createElement(iconData) ],
+    []
   ).createElementData();
 
   function render() {
@@ -24,6 +17,6 @@ export default (function profileCard() {
 
   return {
     containerData,
-    render
-  }
-})()
+    render,
+  };
+})();

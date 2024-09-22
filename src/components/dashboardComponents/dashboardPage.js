@@ -1,10 +1,8 @@
 import createElement from "../../utils/classes/createElement";
 import ElementData from "../../utils/classes/ElementData";
-import EventsBus from "../../utils/events/common/eventBus";
-import events from "../../utils/events/common/events";
 import rootPage from "../common/rootPage";
 import navigationModule from "./dashboardNavigation/navigationModule";
-import dashboardViewport from './dashboardViewport';
+import viewportModule from "./viewportModule";
 
 export default (function dashboardPage() {
   const containerData = new ElementData(
@@ -13,9 +11,9 @@ export default (function dashboardPage() {
     {
       id: "dashboard",
     },
-    [
-      navigationModule.render(),
-      dashboardViewport.render(),
+    [ 
+      navigationModule(), 
+      viewportModule()
     ]
   ).createElementData();
 
@@ -24,10 +22,8 @@ export default (function dashboardPage() {
     root.appendChild(createElement(containerData));
   }
 
-  EventsBus.on(events.loadDashboard, render);
-
   return {
     containerData,
     render,
   };
-})()
+})();
