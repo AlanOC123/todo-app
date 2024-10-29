@@ -1,39 +1,41 @@
-import "./styles/common.css";
-import storageModule from "./utils/dataProcessing/storageModule";
+import "./shared/styles/shared.css";
+import storageModule from "./shared/utils/storageModule";
 
 async function runApp() {
-  const { default: rootPage } = await import("./components/common/rootPage");
   const { default: timeController } = await import(
-    "./utils/events/common/timeController"
+    "./shared/utils/timeController"
   );
-  const { default: dashboardPage } = await import(
-    "./components/dashboardComponents/dashboardPage"
+  const { default: dashboard } = await import("./dashboard/dashboard");
+  const { default: eventsManager } = await import(
+    "./shared/utils/eventsManager"
   );
-  const { default: EventsManager } = await import(
-    "./utils/events/common/EventsManager"
+  const { default: events } = await import("./shared/events/events");
+  const { default: TimeManager } = await import("./shared/utils/timeManager");
+
+  eventsManager.on(events.updateTime, TimeManager.updateTime);
+
+  dashboard();
+
+  const { default: productivityToolModule } = await import (
+    './productivityTool/productivityToolModule'
+  )
+
+  const { default: dashboardEventsManager } = await import(
+    "./dashboard/shared/utils/dashboardEventsManager"
   );
-  const { default: events } = await import('./utils/events/common/events');
-  const { default: TimeManager } = await import('./utils/stateManagement/common/TimeManager');
+  const { default: dashboardEvents } = await import("./dashboard/shared/events/dashboardEvents");
 
-  EventsManager.on(events.updateTime, TimeManager.updateTime);
-
-  rootPage.render();
-  
-  dashboardPage.render();
-
-  const { default: pageRouter } = await import('./utils/events/common/pageRouter');
-
-  EventsManager.emit(events.renderSettings);
+  const { default: pageRouter } = await import("./shared/events/pageRouter");
 
   timeController().start();
 
   pageRouter();
 
-  if (!storageModule.getSettings('init')) {
-    EventsManager.emit(events.renderSettings);
+  if (!storageModule.getSettings("init")) {
+    dashboardEventsManager.emit(dashboardEvents.renderSettings);
   } else {
-    EventsManager.emit(events.renderHome);
-  };
+    dashboardEventsManager.emit(dashboardEvents.renderTasks);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", runApp);

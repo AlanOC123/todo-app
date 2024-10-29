@@ -1,0 +1,13 @@
+.home-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.home-header h2 {
+  flex: 4;
+}
+
+.header-clock {
+  flex: 1;
+}

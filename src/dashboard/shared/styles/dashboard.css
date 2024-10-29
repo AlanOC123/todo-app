@@ -1,0 +1,23 @@
+@import url('../../navigationModule/styles/navigation.css');
+@import url('../../viewportModule//styles//viewport.css');
+
+
+#dashboard {
+  background: linear-gradient(
+    225deg,
+    rgba(var(--pri-clr), 1) 0%,
+    rgba(var(--sec-clr), 1) 50%,
+    rgba(var(--acc-clr), 1) 100%
+  );
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  padding-top: 2.5%;
+  padding-bottom: 0.5%;
+  padding-right: 0.5%;
+  display: grid;
+  grid-template-columns: minmax(4%, 60px) 1fr;
+  grid-template-rows: 1fr;
+}

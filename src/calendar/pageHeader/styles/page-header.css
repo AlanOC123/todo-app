@@ -1,0 +1,13 @@
+.calendar-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.calendar-header h2 {
+  flex: 4;
+}
+
+.header-date {
+  flex: 1;
+}

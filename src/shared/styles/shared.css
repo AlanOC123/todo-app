@@ -1,0 +1,134 @@
+@import url('./css-reset.css');
+@import url('../assets/fonts/lato-font-kit/stylesheet.css');
+@import url('./reusable.css');
+@import url('../../dashboard/shared/styles/dashboard.css');
+@import url('../../productivityTool/shared/styles/productivity-tool.css');
+@import url('../../home/shared/styles/home.css');
+@import url('../../tasks/shared/styles/tasks.css');
+@import url('../../projects/shared/styles/projects.css');
+@import url('../../calendar/shared/styles/calendar.css');
+@import url('../../stats/shared/styles/stats.css');
+@import url('../../userSettings/shared/styles/user-settings.css');
+
+:root {
+  --pri-clr: ;
+  --sec-clr: ;
+  --acc-clr: ;
+  --contrast-clr: 253, 253, 253;
+  --text-clr: 61, 61, 61;
+  --not-started-clr: 222, 73, 115;
+  --pending-clr: 235, 173, 80;
+  --complete-clr: 147, 235, 96;
+  --text-name: 'Alan';
+}
+
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(var(--acc-clr), 0);
+  border-radius: 5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--text-clr), 0.5);
+  border-radius: 5rem;
+  transition: all 300ms ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--pri-clr), 0.5);
+  border-radius: 5rem;
+}
+
+h1 {
+  font-family: 'latobold', sans-serif;
+  font-size: clamp(2rem, 1.5vw + 1rem, 4rem);
+  font-weight: 800;
+  letter-spacing: clamp(0.2rem, 0.2rem + 0.2vw , 0.4rem);
+  color: rgba(var(--text-clr), 1);
+  text-transform: uppercase;
+}
+
+h2 {
+  font-family: 'latobold', sans-serif;
+  font-size: clamp(1.6rem, 0.75vw + 2rem, 2.4rem);
+  letter-spacing: clamp(0.05rem, 0.05rem + 0.15vw , 0.2rem);
+  font-weight: 700;
+  color: rgba(var(--text-clr), 0.9);
+}
+
+.section-header {
+  position: relative;
+  padding-bottom: 1.6rem;
+  width: 100%;
+  display: flex;
+}
+
+.section-header::after {
+    position: absolute;
+    content: '';
+    width: 75%;
+    height: 2px;
+    border-radius: 2px;
+    background-image: linear-gradient(
+      90deg,
+      rgba(var(--pri-clr), 1) 0%,
+      rgba(var(--sec-clr), 0.5) 50%,
+      rgba(var(--acc-clr), 0) 100%
+    );
+    bottom: 0;
+    left: 0;
+}
+
+body, 
+p,
+label,
+input,
+select,
+textarea {
+  font-family: 'latoregular', sans-serif;
+  font-size: clamp(0.8rem, 0.5vw + 0.5rem, 1.6rem);
+  letter-spacing: clamp(0.05rem, 0.05rem + 0.1vw , 0.15rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(var(--text-clr), 1);
+}
+
+input,
+select,
+textarea {
+  border-radius: 0.5em;
+  padding: 0.5em;
+  outline: none;
+  border: none;
+  border: solid 2px rgba(var(--acc-clr), 0.25);
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'latobold', sans-serif;
+  font-size: clamp(0.8rem, 0.5vw + 0.5rem, 1.6rem);
+  font-weight: 700;
+  padding: 0.75em 1.5em;
+  color: rgba(var(--contrast-clr), 1);
+  background-color: rgba(var(--sec-clr), 1);
+  border: none;
+  border-radius: 0.5em;
+  cursor: pointer;
+  transition: all 300ms ease;
+  box-shadow: 0 4px 8px rgba(var(--pri-clr), 0.75);
+}
+
+button:hover {
+  background-color: rgba(var(--acc-clr), 1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 8px rgba(var(--pri-clr), 0.25);
+}
+
+button:active {
+  background-color: rgba(var(--acc-clr), 0.75);
+}

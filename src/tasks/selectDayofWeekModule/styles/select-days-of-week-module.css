@@ -1,0 +1,84 @@
+.select-days {
+  display: inline-flex;
+  justify-content: space-between;
+  gap: 2.5em;
+  grid-column: 1 / 5;
+  grid-row: 2 / 3;
+}
+
+.select-days-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-day-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.select-day-list {
+  flex: 3;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.day-selected {
+  position: relative;
+  padding-bottom: 0.75em;
+  width: fit-content;
+  transition: opacity 300ms ease, padding 300ms ease, scale 300ms ease;
+}
+
+.day-selected::after {
+  content: '';
+  width: 50%;
+  height: 4px;
+  border-radius: 2px;
+  background-color: rgba(var(--pri-clr), 1);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.select-day-list-item:not(.day-selected) {
+  opacity: 0;
+}
+
+.day-selected + .select-day-list-item {
+  opacity: 0.66;
+  transform: scale(0.66);
+  transition: opacity 300ms ease, padding 300ms ease, scale 300ms ease;
+}
+
+.day-selected + .select-day-list-item+ .select-day-list-item   {
+  opacity: 0.33;
+  transform: scale(0.33);
+  transition: opacity 300ms ease, padding 300ms ease, scale 300ms ease;
+}
+
+.select-day-list .select-day-list-item:has( + .day-selected) {
+  opacity: 0.66;
+  transform: scale(0.66);
+  transition: opacity 300ms ease, padding 300ms ease, scale 300ms ease;
+}
+
+.select-day-list .select-day-list-item:has( + .select-day-list-item + .day-selected) {
+  opacity: 0.33;
+  transform: scale(0.33);
+  transition: opacity 300ms ease, padding 300ms ease, scale 300ms ease;
+}
+
+#next-button,
+#prev-button {
+  cursor: pointer;
+}
+
+.button-disabled {
+  opacity: 0.25;
+  pointer-events: none;
+}

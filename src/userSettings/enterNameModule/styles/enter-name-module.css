@@ -1,0 +1,35 @@
+.enter-name-field {
+  grid-row: 2 / 3;
+  grid-column: 2 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: border 300ms ease;
+}
+
+.enter-first-name,
+.enter-last-name {
+  flex: 1;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.enter-first-name label,
+.enter-last-name label {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#first-name,
+#last-name {
+  flex: 4;
+  padding-inline: 16px;
+}
+
+#first-name:focus,
+#last-name:focus {
+  border: solid rgba(var(--acc-clr), 1);
+}

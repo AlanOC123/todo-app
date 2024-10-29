@@ -1,0 +1,138 @@
+.task-card-wrapper {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--text-clr), 1),
+    rgba(var(--text-clr), 1)
+  );
+  padding: 0.25em 0.25em;
+  border-radius: 0.75em;
+  display: inline-flex;
+  backdrop-filter: blur(0.75rem);
+  box-shadow: 0 0.5em 0.5em rgba(var(--text-clr), 0.5);
+}
+
+.task-card-wrapper.not-started-status.low-priority {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--not-started-clr), 1),
+    rgba(var(--complete-clr), 1)
+  );
+}
+
+.task-card-wrapper.not-started-status.medium-priority {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--not-started-clr), 1),
+    rgba(var(--pending-clr), 1)
+  );
+}
+
+.task-card-wrapper.not-started-status.high-priority {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--not-started-clr), 1),
+    rgba(var(--pending-clr), 1),
+    rgba(var(--not-started-clr), 1)
+  );
+}
+
+.task-card-wrapper.pending-status.low-priority {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--pending-clr), 1),
+    rgba(var(--complete-clr), 1)
+  );
+}
+
+.task-card-wrapper.pending-status.medium-priority {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--pending-clr), 1),
+    rgba(var(--pending-clr), 1)
+  );
+}
+
+.task-card-wrapper.pending-status.high-priority {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--pending-clr), 1),
+    rgba(var(--not-started-clr), 1)
+  );
+}
+
+.task-card-wrapper.complete {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--complete-clr), 1),
+    rgba(var(--complete-clr), 1)
+  );
+}
+
+.task-card-wrapper.overdue {
+  background-image: linear-gradient(
+    to right,
+    rgba(var(--not-started-clr), 1),
+    rgba(var(--not-started-clr), 1)
+  );
+}
+
+.task-card {
+  display: flex;
+  background-color: rgba(var(--contrast-clr), 0.8);
+  border-radius: 0.75em;
+  gap: 0.5em;
+  padding: 0.75em 0.5em;
+  width: 100%;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.task-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0.5em 0.5em rgba(var(--text-clr), 0.5);
+}
+
+.task-card .icon {
+  flex: 1;
+}
+
+.task-card .icon svg {
+  transform: scale(0.8);
+}
+
+.icon.category-icon svg {
+  padding: 0;
+  color: rgba(var(--text-clr), 1);
+}
+
+.icon.category-icon:hover svg {
+  background-color: rgba(var(--contrast-clr), 1);
+  color: rgba(var(--text-clr), 1);
+}
+
+.task-card .delete:hover svg {
+  padding: 0.5em;
+  border-radius: 0.5em;
+  background-color: rgba(var(--not-started-clr), 1);
+}
+
+.confirm:hover svg {
+  background-color: rgba(var(--complete-clr), 1);
+  color: rgba(var(--text-clr), 1);
+}
+
+.task-card-header {
+  flex: 3;
+  max-width: 40ch;
+  display: inline-flex; 
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-card-buttons-container {
+  flex: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
