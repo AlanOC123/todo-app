@@ -7,15 +7,12 @@ import timerControls from "./components/timerControls";
 import playButton from "./components/playButton";
 import repeatButton from "./components/repeatButton";
 import displayInformation from "./components/displayInformation";
-import pauseButton from "./components/pauseButton";
 import stopButton from './components/stopButton';
 import selectTimerButton from "./components/selectTimeButton";
 import timerButtonValues from "./utils/timerButtonValues";
-import timerController from "./utils/timerController";
 
 export default function runTimerModule()
 {
-  console.log(1);
   const nodes = [];
 
   timerButtonValues.forEach
