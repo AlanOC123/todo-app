@@ -5,7 +5,7 @@ const timerButtonValues = new Map
       1, 
       { 
         textValue: '1 Minute', 
-        totalTime: 10, 
+        totalTime: 60, 
         timeOn: Math.floor(60 * 0.8),
         timeOff: Math.floor(60 * 0.2)
       },

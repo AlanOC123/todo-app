@@ -32,7 +32,6 @@ export default function setDaySelected(event)
     tasksState.daySelected = newDay;
     tasksState.dateSelected = newDate;
     tasksEventsManager.emit(tasksEvents.taskViewportUpdated);
-    console.log(tasksState)
     return;
   }
 
@@ -53,5 +52,4 @@ export default function setDaySelected(event)
   tasksState.daySelected = newDay;
   tasksState.dateSelected = newDate;
   tasksEventsManager.emit(tasksEvents.taskViewportUpdated);
-  console.log(tasksState)
 }

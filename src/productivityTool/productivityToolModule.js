@@ -8,6 +8,7 @@ import runCalculatorModule from "./calculatorModule/runCalculatorModule";
 import runTimerModule from "./timerModule/runTimerModule";
 import toolButtonText from "./shared/components/toolButtonText";
 import toolControls from "./shared/components/toolControls";
+import timerController from "./timerModule/utils/timerController";
 
 export default (function productivityToolModule()
 {

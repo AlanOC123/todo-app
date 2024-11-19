@@ -13,8 +13,6 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  padding-inline: 48px;
-  padding-block: 24px;
 }
 
 .page.page-active {

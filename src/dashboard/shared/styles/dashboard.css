@@ -4,7 +4,7 @@
 
 #dashboard {
   background: linear-gradient(
-    225deg,
+    135deg,
     rgba(var(--pri-clr), 1) 0%,
     rgba(var(--sec-clr), 1) 50%,
     rgba(var(--acc-clr), 1) 100%

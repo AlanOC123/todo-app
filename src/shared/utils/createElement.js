@@ -52,7 +52,7 @@ export default function createElement
 
 function addChild(parent, child) {
 	if (!isValidChild(child)) {
-		console.warn(`Invalid element provided: ${child}. Parent: ${parent}`);
+		//console.warn(`Invalid element provided: ${child}. Parent: ${parent}`);
 		return;
 	}
 

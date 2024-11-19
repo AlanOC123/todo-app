@@ -120,6 +120,26 @@ const iconsMap =
     icon: "fa-solid fa-stop",
     label: 'Stop',
   },
+  expand:
+  {
+    icon: "fa-solid fa-caret-down",
+    label: 'Expand',
+  },
+  complete: 
+  {
+    icon: "fa-solid fa-check",
+    label: 'Complete',
+  },
+  link:
+  {
+    icon: "fa-solid fa-link",
+    label: 'Connect',
+  },
+  ellipses:
+  {
+    icon: "fa-solid fa-ellipsis",
+    label: 'More Options'
+  }
 }
 
 export default iconsMap;

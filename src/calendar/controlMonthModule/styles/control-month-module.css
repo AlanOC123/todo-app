@@ -1,0 +1,91 @@
+.month-controller {
+  grid-column: 1 / span 5;
+  grid-row: 2 / span 1;
+
+  display: flex;
+  flex-direction: column;
+  padding: 0.4em;
+  gap: 1.6em;
+}
+
+.current-month-control {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.current-month-control .icon {
+  flex-direction: row;
+  flex: 1;
+}
+
+.current-month-control .icon svg {
+  color: rgba(var(--pri-clr), 1);
+  background-color: transparent;
+  transition: transform 300ms ease;
+}
+
+.current-month-control .icon:hover svg {
+  animation: animateExpandButton 1000ms alternate infinite;
+}
+
+.current-month-display {
+  height: 100%;
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(0.8rem, 0.5vw + 0.8rem, 1.6rem);
+}
+
+.select-month-container {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: all 300ms ease;
+
+  background-color: rgba(var(--pri-clr), 1);
+  padding: 0em;
+  border-radius: 0.8em;
+}
+
+.select-month-container.active {
+  grid-template-rows: 1fr;
+  box-shadow: 0 0.4em 0.4em rgba(var(--text-clr), 0.5);
+  padding: 0.8em;
+}
+
+.month-controller:has(.select-month-container.active) .icon svg {
+  transform: rotate(180deg);
+}
+
+.select-month-list {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  overflow-y: hidden;
+  transition: opacity 300ms ease;
+  transition-delay: 150ms;
+  opacity: 0;
+}
+
+.select-month-container.active .select-month-list {
+  opacity: 1;
+}
+
+.select-month-button {
+  color: rgba(var(--contrast-clr), 1);
+  padding: 0.4em;
+  border-radius: 0.4em;
+  cursor: pointer;
+  transition: background-color 300ms ease;
+}
+
+.select-month-button:hover {
+  background-color: rgba(var(--contrast-clr), 0.25);
+}
+
+.select-month-button.active-month-button {
+  background-color: rgba(var(--contrast-clr), 0.75);
+  color: rgba(var(--pri-clr), 1);
+  font-family: 'latobold';
+}

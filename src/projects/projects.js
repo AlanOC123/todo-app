@@ -1,10 +1,14 @@
 import projectsPage from "./shared/components/projectsPage"
-import header from "../shared/components/header"
+import projectDetailsModule from "./projectDetailsModule/projectDetailsModule";
+import selectProjectModule from "./selectProjectModule/selectProjectModule";
+import projectViewportModule from "./projectViewportModule/projectViewportModule";
 
 export default (function projects()
 {
   return projectsPage
   (
-    header('Projects')
+    selectProjectModule,
+    projectViewportModule,
+    projectDetailsModule
   )
 })()

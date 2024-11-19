@@ -16,10 +16,6 @@ async function runApp() {
 
   dashboard();
 
-  const { default: productivityToolModule } = await import (
-    './productivityTool/productivityToolModule'
-  )
-
   const { default: dashboardEventsManager } = await import(
     "./dashboard/shared/utils/dashboardEventsManager"
   );
@@ -34,8 +30,12 @@ async function runApp() {
   if (!storageModule.getSettings("init")) {
     dashboardEventsManager.emit(dashboardEvents.renderSettings);
   } else {
-    dashboardEventsManager.emit(dashboardEvents.renderTasks);
+    dashboardEventsManager.emit(dashboardEvents.renderProjects);
   }
+
+  const { default: productivityToolModule } = await import (
+    './productivityTool/productivityToolModule'
+  )
 }
 
 document.addEventListener("DOMContentLoaded", runApp);

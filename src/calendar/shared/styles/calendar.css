@@ -1,1 +1,15 @@
 @import url('../../pageHeader/styles/page-header.css');
+@import url('../../controlMonthModule/styles/control-month-module.css');
+@import url('../../calendarDisplayModule//styles/calendar-display-module.css');
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 10% 5em 1fr 6em;
+  gap: 0.8em;
+  transition: all 300ms ease;
+}
+
+#calendar:has(.select-month-container.active) {
+  grid-template-rows: 10% 8em 1fr 6em;
+}
