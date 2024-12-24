@@ -1,0 +1,59 @@
+.project-viewport-controls {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.6em;
+  padding: 0.8em;
+  overflow: visible;
+}
+
+.change-project-name-button,
+.change-component-name-button,
+.change-project-name-input,
+.change-component-name-input,
+.change-project-due-date-button,
+.change-project-due-date-input,
+.add-project-task-button,
+.project-task-filter-button,
+.project-viewport-controls input,
+.project-viewport-controls select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  padding: 0.8em;
+  border-radius: 0.4em;
+  transition: transform 300ms ease, background-color 300ms ease;
+}
+
+.project-viewport-controls input,
+.project-viewport-controls select {
+  border: none;
+}
+
+.project-viewport-controls input:hover,
+.project-viewport-controls input:focus,
+.project-viewport-controls input:active,
+.project-viewport-controls select:hover,
+.project-viewport-controls select:focus,
+.project-viewport-controls select:active {
+  border: 1px solid rgba(215, 215, 215);
+}
+
+.project-viewport-controls button:hover {
+  transform: translateY(-2px);
+}
+
+.add-project-task-button {
+  background-color: rgba(var(--acc-clr), 1);
+}
+
+.change-project-name-button,
+.change-component-name-button,
+.change-project-due-date-button {
+  background-color: rgba(215, 215, 215);
+  color: rgba(var(--text-clr), 1);
+}

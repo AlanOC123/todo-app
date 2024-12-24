@@ -1,94 +1,242 @@
-import timeManager from "../../../shared/utils/timeManager";
-import { format, parseISO, isBefore } from "date-fns";
-import taskCardValues from "./taskValues";
+import { isAfter, format, parse, differenceInDays, startOfDay  } from "date-fns";
+import taskViewportEventManager from '../../tasksViewportModule/events/taskViewportEventsManager';
+import taskViewportEvents from "../../tasksViewportModule/events/taskViewportEvents";
+import taskCard from '../../shared/components/taskCard/taskCard'
 
-export default class TaskClass {
-  constructor(
-    title = 'Click Button Above to Edit',
-    createdAt = new Date().toISOString(),
-    dueDate = timeManager.formatTimeStamp(createdAt),
-    priority = taskCardValues.priority.textHeadings[0],
-    category = taskCardValues.category.textHeadings[0],
-    status = taskCardValues.status.textHeadings[0],
-    description = 'Click Button Above to Edit',
-  ) {
-    this.title = title;
-    this.description = description;
-    this.createdAt = createdAt;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    this.category = category;
-    this.status = this.isOverdue() ? "Overdue" : status;
-    this.id = this.generateTaskID();
+export default class TaskClass
+{
+  #taskID;
+  #taskName;
+  #taskStatus;
+  #taskPriority;
+  #taskDifficulty;
+  #taskCategory;
+  #taskCreatedAt;
+  #taskModifiedAt;
+  #taskCompletedAt;
+  #taskDueDate;
+  #isTaskComplete;
+  #isTaskOverdue;
+  #isTaskEditing;
+  #taskCard;
+
+  #generateNumericIdentifier = (length = 10) => Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
+
+  #setTaskID = () =>
+  {
+    const taskName = this.#taskName ? this.#taskName.split(' ').join('_') : 'Unnamed_Task';
+
+    const taskDate = this.#taskModifiedAt ? `M:${this.#taskModifiedAt}` : `C:${this.#taskCreatedAt}`;
+
+    this.#taskID = `${taskName}_${taskDate}_${this.#generateNumericIdentifier()}`;
+  };
+
+  #setTaskModifiedAt = () => this.#taskModifiedAt = new Date();
+
+  #setIsTaskOverdue = () => 
+  {
+    const referenceDate = startOfDay(new Date());
+    const dateToCheck = startOfDay(this.#taskDueDate);
+    this.#isTaskOverdue = isAfter(referenceDate, dateToCheck);
+  };
+
+  constructor()
+  {
+    this.#taskID = null;
+    this.#taskName = 'Type Task Name';
+    this.#taskStatus = null;
+    this.#taskPriority = null;
+    this.#taskDifficulty = null;
+    this.#taskCategory = null;
+    this.#taskCreatedAt = new Date();
+    this.#taskModifiedAt = null;
+    this.#taskCompletedAt = null;
+    this.#taskDueDate = null;
+    this.#isTaskComplete = false;
+    this.#isTaskOverdue = false;
+    this.#isTaskEditing = false;
+    this.#taskCard = null;
+    this.#setTaskID();
+    this.#taskCard = taskCard(this);
   }
 
-  generateTaskID = () => {
-    let number = "";
-    for (let i = 0; i < 9; i++) {
-      number += Math.floor(Math.random() * 9);
-    }
+  setTaskName = (newTaskName) =>
+  {
+    if (!newTaskName) return;
 
-    const sanitisedTitle = this.title.replace(/\s+/g, "_");
-    return `${this.createdAt.split(" ").join("_")}_${sanitisedTitle}_${number}`;
+    const oldName = this.#taskName;
+
+    if (oldName === newTaskName) return;
+
+    const MIN = 2;
+    const MAX = 30;
+
+    if ((newTaskName.length < MIN) || (newTaskName.length > MAX)) return;
+
+    this.#taskName = newTaskName;
+    this.#setTaskModifiedAt();
+    this.#setTaskID();
+    taskViewportEventManager.emit(taskViewportEvents.taskNameChanged, { task: this });
+    taskViewportEventManager.emit(taskViewportEvents.viewportRefreshed);
   };
 
-  updateTitle = (newTitle) => {
-    if (!newTitle) {
+  setTaskStatus = (newStatus) =>
+  {
+    if (!newStatus) return;
+
+    if (newStatus === 'Complete')
+    {
+      this.#isTaskComplete = true;
+      this.#taskStatus = newStatus;
+      if (!this.#taskCompletedAt) this.#taskCompletedAt = new Date();
+      taskViewportEventManager.emit(taskViewportEvents.taskStatusChanged, { task: this })
+      taskViewportEventManager.emit(taskViewportEvents.viewportRefreshed);
       return;
     }
-    this.title = newTitle;
-    this.id = this.generateTaskID();
-  };
 
-  updateStatus = (newStatus) => {
-    if (this.isOverdue()) {
-      this.status = "Overdue";
-    }
+    const isComplete = this.#isTaskComplete;
+    const isOverDue = this.#isTaskOverdue;
 
-    if (this.status === "Overdue" && newStatus !== "Complete") {
+    if (isOverDue && !isComplete)
+    {
+      this.#taskStatus = 'Overdue';
+      this.#setTaskModifiedAt();
+      this.#setTaskID();
+      taskViewportEventManager.emit(taskViewportEvents.taskStatusChanged, { task: this })
+      taskViewportEventManager.emit(taskViewportEvents.viewportRefreshed);
       return;
     }
 
-    this.status = newStatus;
+    this.#taskStatus = newStatus;
+    this.#setTaskModifiedAt();
+    this.#setTaskID();
+    taskViewportEventManager.emit(taskViewportEvents.taskStatusChanged, { task: this })
+    taskViewportEventManager.emit(taskViewportEvents.viewportRefreshed);
   };
 
-  parseDate = (dateValue) => {
-    return format(dateValue, "dd-MM-yyyy");
+  setTaskPriority = (newPriority) =>
+  {
+    if (!newPriority) return;
+
+    const oldPriority = this.#taskPriority;
+
+    if (oldPriority === newPriority) return;
+
+    this.#taskPriority = newPriority;
+    this.#setTaskModifiedAt();
+    this.#setTaskID();
+    taskViewportEventManager.emit(taskViewportEvents.taskPriorityChanged, { task: this })
+    taskViewportEventManager.emit(taskViewportEvents.viewportRefreshed);
   };
 
-  isOverdue = () => {
-    return isBefore(
-      this.dueDate,
-      format(new Date().toISOString(), "dd-MM-yyyy")
-    );
+  setTaskDifficulty = (newDifficulty) =>
+  { 
+    if (!newDifficulty) return;
+
+    const oldDifficulty = this.#taskDifficulty;
+    if (oldDifficulty === newDifficulty) return;
+
+    this.#taskDifficulty = newDifficulty;
+    this.#setTaskModifiedAt();
+    this.#setTaskID();
+    taskViewportEventManager.emit(taskViewportEvents.taskDifficultyChanged, { task: this });
+    taskViewportEventManager.emit(taskViewportEvents.viewportRefreshed);
+  }
+
+  setTaskCategory = (newCategory) =>
+  {
+    if (!newCategory) return;
+    const currentCategory = this.#taskCategory;
+
+    if (currentCategory === newCategory) return;
+
+    if (currentCategory && currentCategory !== 'General')
+    {
+      this.#taskCategory.deleteCategoryTask(this);
+    }
+    this.#taskCategory = newCategory;
+
+    this.#setTaskModifiedAt();
+    this.#setTaskID();
+    taskViewportEventManager.emit(taskViewportEvents.taskCategoryChanged, { task: this })
+    taskViewportEventManager.emit(taskViewportEvents.viewportRefreshed);
+  }
+
+  setTaskDueDate = (newDueDate) =>
+  {
+    if (!newDueDate) return;
+
+    const oldDueDate = this.#taskDueDate;
+
+    if (oldDueDate === newDueDate) return;
+
+    this.#taskDueDate = newDueDate;
+    this.#setTaskModifiedAt();
+    this.#setTaskID();
+    taskViewportEventManager.emit(taskViewportEvents.taskDueDateChanged, { task: this })
+    taskViewportEventManager.emit(taskViewportEvents.viewportRefreshed);
+
+    this.#setIsTaskOverdue();
+    if (this.#isTaskOverdue) this.setTaskStatus('Overdue');
   };
 
-  updateDueDate = (newDueDate) => {
-    if (!newDueDate) {
+  setIsTaskComplete = (newStatus) =>
+  {
+    if (newStatus)
+    {
+      this.setTaskStatus('Complete');
       return;
     }
-    this.dueDate = this.parseDate(newDueDate);
-    this.updateStatus();
+
+    this.#isTaskComplete = false;
+    this.#taskCompletedAt = null;
+
+    this.#setTaskModifiedAt();
+    this.#setTaskID();
+
+    if (this.#taskStatus === 'Complete') this.setTaskStatus('In Progress');
   };
 
-  updatePriority = (newPriority) => {
-    if (!newPriority) {
-      return;
-    }
-    this.priority = newPriority;
+  setIsTaskEditing = (newStatus) =>
+  {
+    this.#isTaskEditing = newStatus;
+    if (newStatus) this.#taskCard = taskCard(this);
+  }
+
+  getTaskID = () => this.#taskID;
+
+  getTaskName = () => this.#taskName;
+
+  getTaskDueDate = () => this.#taskDueDate;
+
+  getTaskStatus = () => this.#taskStatus;
+
+  getTaskPriority = () => this.#taskPriority;
+
+  getTaskDifficulty = () => this.#taskDifficulty;
+
+  getTaskCategory = () => this.#taskCategory;
+
+  getTaskCreatedAt = () => this.#taskCreatedAt;
+
+  getTaskModifiedAt = () => this.#taskModifiedAt;
+
+  getTaskCompletedAt = () => this.#taskCompletedAt;
+
+  getIsTaskComplete = () => this.#isTaskComplete;
+
+  getIsTaskOverdue = () => this.#isTaskOverdue;
+
+  getIsTaskEditing = () => this.#isTaskEditing;
+
+  getTimeRemaining = () => differenceInDays(this.#taskDueDate, new Date());
+
+  getFormattedDueDate = () => format(this.#taskDueDate, 'PP');
+
+  getFormattedCompletedDate = () =>
+  {
+    return this.#taskCompletedAt ? format(this.#taskCompletedAt, 'PP') : null;
   };
 
-  updateCategory = (newCatergory) => {
-    if (!newCatergory) {
-      return;
-    }
-    this.category = newCatergory;
-  };
-
-  updateDescription = (newDescription) => {
-    if (!newDescription) {
-      return;
-    }
-    this.description = newDescription;
-  };
+  getTaskCard = () => this.#taskCard;
 }

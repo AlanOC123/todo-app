@@ -1,162 +1,191 @@
-import { format } from "date-fns";
-import projectsEventsManager from "./projectEventsManager";
-import projectEvents from "../events/projectsEvents";
-import projectViewportTaskCard from "../../projectViewportModule/components/projectViewportTaskCard/projectViewportTaskCard";
+import thoughtBubbleEventsManager from "../../thoughtBubbleModule/events/thoughtBubbleEventsManager";
+import thoughtBubbleEvents from "../../thoughtBubbleModule/events/thoughtBubbleEvents";
+import ThoughtBubble from "./ThoughtBubbleClass";
+import { differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns';
+import projectTaskCard from "../../projectViewportModule/components/projectTaskCard/projectTaskCard";
+import projectViewportEventsManager from "../../projectViewportModule/events/projectViewportEventsManager";
+import projectViewportEvents from "../../projectViewportModule/events/projectViewportEvents";
 
-export default class ProjectTaskClass
+export default class ProjectTaskClass 
 {
-  #taskName;
   #taskID;
-  #taskCreatedAt;
-  #taskModifiedAt;
-  #taskCompletedAt;
+  #taskName;
   #isTaskComplete;
-  #componentTaskIsRelatedTo;
-  #taskCardElement;
+  #taskCreatedAt;
+  #taskCompletedAt;
+  #taskLastModified;
+  #parentComponent;
+  #parentProject;
+  #taskPriority;
+  #taskCard;
+
+  #generateNumericIdentifier = (length = 10) => Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
+
+  #resetCardClass = (property) => 
+  {
+    const map =
+    {
+      'Priority': () => 
+      {
+        ['low', 'medium', 'high'].forEach
+          (
+            className => this.#taskCard.classList.remove(className)
+          ) 
+      },
+      'Complete': () =>
+      {
+        ['task-complete'].forEach
+        (
+          className => this.#taskCard.classList.remove(className)
+        ) 
+      }
+    }
+
+    map[property]();
+  }
 
   #setTaskID = () =>
   {
-    let identifierValue = '';
-    for (let i = 0; i < 10; i++)
-    {
-      const value = Math.floor(Math.random() * 9).toString();
-      identifierValue += value;
-    }
+    const taskName = this.#taskName ? this.#taskName.split(' ').join('_') : 'Unnamed_Task';
 
-    let projectName = '';
+    const taskDate = this.#taskLastModified ? `M:${this.#taskLastModified}` : `C:${this.#taskCreatedAt}`;
 
-    if (this.#componentTaskIsRelatedTo)
-    {
-      if (this.#componentTaskIsRelatedTo.getProjectComponentIsRelatedTo())
-      {
-        projectName = this.#componentTaskIsRelatedTo.getProjectComponentIsRelatedTo().getProjectName().split(' ').join('_');
-      }
-    }
-
-    const componentName = this.#componentTaskIsRelatedTo ? this.#componentTaskIsRelatedTo.getComponentName().split(' ').join('_') : '';
-
-    const taskName = this.#taskName.split(' ').join('_');
-
-    const dateValue = this.#taskModifiedAt ? `M${this.#taskModifiedAt.split(' ').join('_')}` : `C${this.#taskCreatedAt.split(' ').join('_')}`
-
-    this.#taskID = `${projectName}_${componentName}_${taskName}_${dateValue}_${identifierValue}`;
+    this.#taskID = `${taskName}_${taskDate}_${this.#generateNumericIdentifier()}`;
   }
 
-  #setTaskModifiedAt = () => 
-  { 
-    this.#taskModifiedAt = format(new Date(), 'dd-MM-yyyy HH:mm:ss');
-    this.#setTaskID();
-    this.#taskCardElement.dataset.id = this.#taskID;
-  }
+  #setTaskLastModified = () => this.#taskLastModified = new Date();
 
-  #setTaskComplete = () =>
+  constructor(parentComponent, priority = 'Low')
   {
-    if (this.#isTaskComplete === true)
-    {
-      this.#taskCompletedAt = format(new Date(), 'dd-MM-yyyy HH:mm:ss');
-    } else 
-    {
-      this.#taskCompletedAt = null;
-    }
-    projectsEventsManager.emit(projectEvents.projectTaskUpdated, { change: 'taskCompletion', task: this });
-  }
-
-  #createTaskCard = () => { return projectViewportTaskCard(this) };
-
-  #setEvents = () => 
-  {
-    function componentChanged({ change, component })
-    {
-      if (component !== this.#componentTaskIsRelatedTo)
-      {
-        return;
-      }
-
-      if (change === 'componentID')
-      {
-        this.#setTaskModifiedAt();
-      }
-    }
-
-    projectsEventsManager.on(projectEvents.projectComponentUpdated, componentChanged.bind(this));
-  }
-  
-
-  constructor
-  (
-    name = 'Task Name',
-    isComplete = false,
-    component = null,
-  )
-  {
-    this.#taskName = name;
     this.#taskID = null;
-    this.#taskCreatedAt = format(new Date(), 'dd-MM-yyyy HH:mm:ss');
-    this.#taskModifiedAt = null;
+    this.#taskName = 'Type Task Name';
+    this.#isTaskComplete = false;
+    this.#taskCreatedAt = new Date();
     this.#taskCompletedAt = null;
-    this.#isTaskComplete = isComplete;
-    this.#componentTaskIsRelatedTo = component;
-    this.#taskCardElement = this.#createTaskCard();
+    this.#taskLastModified = null;
+    this.#parentComponent = parentComponent;
+    this.#parentProject = parentComponent.getComponentParentProject();
+    this.#taskPriority = priority;
     this.#setTaskID();
-    this.#setTaskComplete();
-    this.#setEvents();
+    this.#taskCard = projectTaskCard(this);
   }
 
-  setTaskName = newTaskName =>
+  setTaskName = (newTaskName) =>
   {
-    const previousValue = this.#taskName;
+    if (!newTaskName || newTaskName === 'Type Task Name') return;
 
-    if (previousValue === newTaskName)
-    {
-      return;
-    }
+    const oldName = this.#taskName;
 
-
-    const minLength = 3;
-    const maxLength = 30;
-
-    if 
-    (
-      !(
-        newTaskName
-        && (newTaskName.length > minLength)
-        && (newTaskName.length < maxLength)
-      )
-    )
-    {
-      return;
-    }
-
+    if (oldName === newTaskName) return
+  
+    const MIN = 2;
+    const MAX = 30;
+  
+    if ((newTaskName.length < MIN) || (newTaskName.length > MAX)) return;
+  
     this.#taskName = newTaskName;
-    this.#setTaskModifiedAt();
-    projectsEventsManager.emit(projectEvents.projectTaskUpdated, { change: 'taskName', task: this });
+    this.#setTaskLastModified();
+    this.#setTaskID();
+
+    if (oldName === 'Type Task Name') return;
+
+    const newThought = new ThoughtBubble(this.#parentProject, true);
+
+    newThought.setThoughtContent(`Changed Task Name from ${oldName} to ${this.#taskName}`);
+    this.#parentProject.addThought(newThought);
+    thoughtBubbleEventsManager.emit(thoughtBubbleEvents.messageAdded, { newThought: newThought });
+    projectViewportEventsManager.emit(projectViewportEvents.projectTaskNameChanged, { projectTask: this });
   }
 
-  setIsTaskComplete = () =>
+  setIsTaskComplete = (newStatus) =>
   {
-    this.#isTaskComplete = !this.#isTaskComplete;
-    console.log(this.#isTaskComplete);
-    this.#setTaskComplete();
-    this.#setTaskModifiedAt();
-  }
+    const oldStatus = this.#isTaskComplete;
 
-  setComponentTaskIsRelatedTo = newComponent =>
+    if (oldStatus === newStatus) return;
+
+    this.#isTaskComplete = newStatus;
+    this.#resetCardClass('Complete');
+
+    this.#taskCompletedAt = this.#isTaskComplete ? new Date() : null;
+
+    if (this.#isTaskComplete) this.#taskCard.classList.add('task-complete');
+
+    this.#setTaskLastModified();
+
+    const newThought = new ThoughtBubble(this.#parentProject, true);
+
+    newThought.setThoughtContent
+    (
+      `Task marked as ${this.#isTaskComplete ? 'Complete' : 'In-Complete'}${this.#isTaskComplete ? ` at ${this.#taskCompletedAt}` : ''}`
+    );
+
+    this.#parentProject.addThought(newThought);
+    thoughtBubbleEventsManager.emit(thoughtBubbleEvents.messageAdded, { newThought: newThought });
+    projectViewportEventsManager.emit(projectViewportEvents.projectTaskStatusChanged, { projectTask: this });
+  };
+
+  setTaskPriority = (newPriority) =>
   {
-    if (!newComponent)
-    {
-      return;
-    }
+    if (!newPriority) return;
 
-    this.#componentTaskIsRelatedTo = newComponent;
-    this.#setTaskModifiedAt();
+    const oldPriority = this.#taskPriority;
+
+    if (oldPriority === newPriority) return;
+
+    this.#resetCardClass('Priority')
+    this.#taskPriority = newPriority;
+    let classToAdd;
+
+    if (this.#taskPriority === 'Low') classToAdd = 'low';
+    else if (this.#taskPriority === 'Medium') classToAdd = 'medium';
+    else if (this.#taskPriority === 'High') classToAdd = 'high';
+    else return;
+
+    this.#taskCard.classList.add(classToAdd);
+    this.#setTaskLastModified();
+
+    const newThought = new ThoughtBubble(this.#parentProject, true);
+
+    newThought.setThoughtContent(`Task Changed from ${oldPriority} to ${newPriority}`);
+
+    this.#parentProject.addThought(newThought);
+
+    thoughtBubbleEventsManager.emit(thoughtBubbleEvents.messageAdded, { newThought: newThought });
+
+    projectViewportEventsManager.emit(projectViewportEvents.projectTaskPriorityChanged, { projectTask: this });
   }
 
-  getTaskName = () => { return this.#taskName };
-  getTaskID = () => { return this.#taskID };
-  getTaskCreatedAt = () => { return this.#taskCreatedAt };
-  getTaskModifiedAt = () => { return this.#taskModifiedAt };
-  getTaskCompletedAt = () => { return this.#taskCompletedAt };
-  getIsTaskComplete = () => { return this.#isTaskComplete };
-  getComponentTaskIsRelatedTo = () => { return this.#componentTaskIsRelatedTo };
-  getTaskCardElement = () => { return this.#taskCardElement };
+  getTaskID = () => this.#taskID;
+
+  getTaskName = () => this.#taskName;
+
+  getIsTaskComplete = () => this.#isTaskComplete;
+
+  getTaskCreatedAt = () => this.#taskCreatedAt;
+
+  getTaskCompletedAt = () => this.#taskCompletedAt;
+
+  getTaskLastModified = () => this.#taskLastModified;
+
+  getTaskParent = (option = 'Component') =>
+  {
+    return option === 'Component' ? this.#parentComponent : this.#parentProject;
+  };
+
+  getTaskPriority = () => this.#taskPriority;
+
+  getTaskDuration = () =>
+  {
+    const now = new Date();
+    const dayDiff = differenceInDays(now, this.#taskCreatedAt);
+    const hrDiff = differenceInHours(now, this.#taskCreatedAt);
+    const minDiff = differenceInMinutes(now, this.#taskCreatedAt);
+
+    if (dayDiff > 0) return `${dayDiff} Day${(dayDiff > 1 ? 's' : '')}`;
+    if (hrDiff > 0) return `${hrDiff} Hr${(hrDiff > 1 ? 's' : '')}`;
+    if (minDiff > 0) return `${minDiff} Min${(minDiff > 1 ? 's' : '')}`;
+    return '< 1min';
+  }
+
+  getTaskCard = () => this.#taskCard;
 }

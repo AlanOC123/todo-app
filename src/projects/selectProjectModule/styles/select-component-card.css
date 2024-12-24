@@ -1,0 +1,59 @@
+.component-card {
+  display: flex;
+  align-items: center;
+  background-color: rgba(var(--contrast-clr), 1);
+  border-left: 0.2em solid rgba(var(--text-clr), 0.5);
+  border-top-right-radius: 0.4em;
+  border-bottom-right-radius: 0.4em;
+  padding: 0.8em;
+  transition: border 300ms ease, border-radius 300ms ease;
+  color: rgba(var(--contrast-clr), 1);
+}
+
+.component-card.component-card-active {
+  border-left: 0.4em solid rgba(var(--sec-clr), 1);
+}
+
+.component-card:not(.component-card-active):hover {
+  color: rgba(var(--contrast-clr), 1);
+  background-color: rgba(215, 215, 215);
+  border-left: 0.4em solid rgba(150, 150, 150);
+}
+
+.component-card.not-started:not(.component-card-active) {
+  border-left: 0.2em solid rgba(var(--not-started-clr), 1);
+}
+
+.component-card.in-progress:not(.component-card-active) {
+  border-left: 0.2em solid rgba(var(--pending-clr), 1);
+}
+
+.component-card.complete:not(.component-card-active) {
+  border-left: 0.2em solid rgba(var(--complete-clr), 1);
+}
+
+.component-card:not(.component-card-active):hover .component-card-name {
+  color: rgba(var(--text-clr), 1);
+}
+
+.component-card-name-input,
+.component-card-name {
+  border: none;
+  border-radius: 0.4em;
+  flex: 2;
+}
+
+.component-card-name-input.error {
+  border: 1px solid rgba(var(--not-started-clr), 1);
+}
+
+.delete-component {
+  flex: 0 1 3em;
+  background-color: rgba(var(--pending-clr), 1);
+  border-radius: 0.4em;
+  transition: transform 300ms ease;
+}
+
+.delete-component:hover {
+  transform: translateY(-2px);
+}

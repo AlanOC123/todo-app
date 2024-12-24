@@ -1,96 +1,202 @@
-import testProjects from './testProjects';
-import projectsEventsManager from '../utils/projectEventsManager';
-import projectsEvents from '../events/projectsEvents';
+import projectsPageEventsManager from "../events/projectsPageEventsManager";
+import projectPageEvents from "../events/projectsPageEvents";
 
 export default (function projectState()
 {
-  let _selectedProject = null;
+  let _currentState = null;
+  let _currentProjects = [];
+  let _activeProject = null;
+  let _activeComponent = null;
 
-  const _sortedProjectComponents = 
-  (() => 
-    {
-      return {
-        'Not-Started': [],
-        'In-Progress': [],
-        'Complete': [],
-        'Overdue': [],
-      }
-    }
-  )();
-
-  let _notStartedComponents = [];
-  let _inProgressComponents = [];
-  let _completeComponents = [];
-  let _overdueComponents = [];
-
-  function setSelectedProject(selectedProject)
+  function _findDefaultProject()
   {
-    _selectedProject = 
-    selectedProject
-    ? selectedProject 
-    : testProjects.length > 0
-    ? testProjects[0]
-    : null;
-
-    _setComponents();
-    projectsEventsManager.emit(projectsEvents.projectChanged);
+    if (_currentProjects.length > 0)
+    {
+      _currentProjects[0].setIsProjectActive(true);
+      return _currentProjects[0];
+    } else
+    {
+      return null;
+    }
   }
 
-  function _setEvents()
+  function _findActiveProject()
   {
-    function projectUpdated({ project })
+    if (_currentProjects.length === 0)
     {
-      if (project !== _selectedProject)
-      {
-        return;
-      }
-
-      setSelectedProject(project);
+      return null;
     }
 
-    projectsEventsManager.on(projectsEvents.projectUpdated, projectUpdated);
-    projectsEventsManager.on(projectsEvents.projectDeleted, setSelectedProject);
+    const activeProject = _currentProjects.find(project => project.getIsProjectActive() === 'Yes');
+
+    return activeProject ? activeProject : null;
   }
 
-  function _setComponents()
+  function _findActiveComponent()
   {
-    if (!_selectedProject)
+    if (!_activeProject)
     {
+      return null;
+    };
+
+    const activeProjectComponents = _activeProject.getProjectComponents();
+
+    if (activeProjectComponents.length === 0)
+    {
+      return null;
+    }
+  
+    const activeComponent = activeProjectComponents.find(component => component.getIsComponentActive() === 'Yes');
+
+    return activeComponent ? activeComponent : null;
+  }
+
+  function _findDefaultComponent()
+  {
+    if (!_activeProject)
+    {
+      return null;
+    };
+
+    const activeProjectComponents = _activeProject.getProjectComponents();
+
+    if (activeProjectComponents.length > 0)
+    {
+      console.log('Finding Default');
+      activeProjectComponents[0].setIsComponentActive(true);
+      return activeProjectComponents[0]
+    } else
+    {
+      return null;
+    }
+  }
+
+  function _deactiveProjects()
+  {
+    if (_currentProjects.length === 0)
+    {
+      return;
+    };
+
+    const activeProject = _currentProjects.find
+    (
+      project => project.getIsProjectActive() === 'Yes',
+    );
+
+    if (activeProject)
+    {
+      activeProject.setIsProjectActive(false);
+    };
+
+  }
+
+  function _deactivateComponents()
+  {
+    if (!_activeProject)
+    {
+      return;
+    };
+
+    const activeProjectComponents = _activeProject.getProjectComponents();
+
+    const activeComponent = activeProjectComponents.find
+    (
+      component => component.getIsComponentActive() === 'Yes',
+    );
+
+    if (activeComponent)
+    {
+      activeComponent.setIsComponentActive(false);
+    };
+  }
+
+  function setActiveProject(selectedProject)
+  {
+    if (selectedProject)
+    {
+      _deactiveProjects();
+      _activeProject = selectedProject;
+      projectsPageEventsManager.emit(projectPageEvents.projectSelected);
+      selectedProject.setIsProjectActive(true);
+      setActiveComponent(null)
+      return;
+    };
+
+    _activeProject = _findActiveProject() || _findDefaultProject();
+    projectsPageEventsManager.emit(projectPageEvents.projectSelected);
+    setActiveComponent(null)
+  }
+
+  function setActiveComponent(selectedComponent)
+  {
+    if (!_activeProject)
+    {
+      _activeComponent = null;
+      projectsPageEventsManager.emit(projectPageEvents.componentSelected);
       return;
     }
 
-    for (const status in _sortedProjectComponents)
+    if (selectedComponent)
     {
-      _sortedProjectComponents[status] = [];
+      _deactivateComponents();
+      _activeComponent = selectedComponent;
+      projectsPageEventsManager.emit(projectPageEvents.componentSelected);
+      selectedComponent.setIsComponentActive(true);
+      return;
+    };
+
+    if (!selectedComponent)
+    {
+      _activeComponent = _findActiveComponent() || _findDefaultComponent();
+      projectsPageEventsManager.emit(projectPageEvents.componentSelected);
+      return;
     }
-
-    const components = _selectedProject.getProjectComponents();
-
-    components.forEach
-    (
-      component =>
-      {
-        _sortedProjectComponents[component.getComponentStatus()].push(component);
-      }
-    )
   }
 
-  function getSelectedProject()
+  function _addProject({ newProject })
   {
-    return _selectedProject;
+    if (!newProject) return;
+
+    _currentProjects.push(newProject);
+
+    if (newProject.getIsProjectActive() === 'Yes') setActiveProject(newProject);
   }
 
-  function getSortedComponents()
+  function _deleteProject({ selectedProject })
   {
-    return _sortedProjectComponents;
+    if (!selectedProject) return;
+
+    const index = _currentProjects.findIndex(project => project === selectedProject);
+
+    if (index === -1)
+    {
+      return;
+    };
+
+    _currentProjects.splice(index, 1);
+
+    if (_activeProject === selectedProject) setActiveProject(null);
   }
 
-  _setEvents();
-  setSelectedProject();
+  const getProjects = () => _currentProjects;
+
+  const getActiveProject = () => _activeProject;
+
+  const getActiveComponent = () => _activeComponent;
+
+  const getState = () => _currentState;
+
+  setActiveProject(null);
+  projectsPageEventsManager.on(projectPageEvents.projectAdded, _addProject);
+  projectsPageEventsManager.on(projectPageEvents.projectDeleted, _deleteProject);
 
   return {
-    setSelectedProject,
-    getSelectedProject,
-    getSortedComponents
-  };
+    setActiveProject,
+    setActiveComponent,
+    getProjects,
+    getActiveProject,
+    getActiveComponent,
+    getState,
+  }
+
 })()

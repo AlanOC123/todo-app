@@ -1,0 +1,30 @@
+.eisenhower-matrix {
+  position: absolute;
+  background-color: rgba(var(--text-clr), 0.2);
+  backdrop-filter: blur(2em);
+  inset: 0;
+  margin: auto;
+  border-radius: var(--medium-padding);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--large-padding);
+}
+
+.matrix-display {
+  flex: 1;
+  height: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--medium-padding);
+  padding: var(--medium-padding);
+  background-color: rgba(var(--contrast-clr), 1);
+  border-radius: var(--medium-padding);
+  overflow: hidden;
+}
+
+.matrix-display .task-display-grouping-card {
+  min-width: 40%;
+  min-height: auto;
+  overflow-y: auto;
+}

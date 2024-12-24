@@ -25,6 +25,11 @@ const iconsMap =
     icon: "fa-solid fa-user-group",
     label: "Social",
   },
+  rainbow:
+  {
+    icon: "fa-solid fa-rainbow",
+    label: 'All Tasks',
+  },
   options:
   {
     icon: "fa-solid fa-bars",
@@ -72,7 +77,7 @@ const iconsMap =
   },
   confirm:
   {
-    icon: "fa-regular fa-square-check",
+    icon: "fa-solid fa-square-check",
     label: "Confirm",
   },
   arrowRight: 
@@ -139,7 +144,62 @@ const iconsMap =
   {
     icon: "fa-solid fa-ellipsis",
     label: 'More Options'
-  }
+  },
+  hourglass:
+  {
+    icon: 'fa-solid fa-hourglass',
+    label: 'In-Progress'
+  },
+  folder:
+  {
+    icon: "fa-solid fa-folder",
+    label: 'Project',
+  },
+  folderPlus:
+  {
+    icon: "fa-solid fa-folder-plus",
+    label: 'Add Project',
+  },
+  comments:
+  {
+    icon: "fa-solid fa-comments",
+    labe: 'Comments',
+  },
+  arrowUpRight:
+  {
+    icon: "fa-solid fa-arrow-up-right-from-square",
+    label: '',
+  },
+  playButton:
+  {
+    icon: 'fa-solid fa-play',
+    label: 'Play',
+  },
+  emptySquare:
+  {
+    icon: "fa-regular fa-square",
+    label: 'Check',
+  },
+  warning:
+  {
+    icon: "fa-solid fa-triangle-exclamation",
+    label: 'Warning',
+  },
+  star:
+  {
+    icon: "fa-regular fa-star",
+    label: 'Important',
+  },
+  lock:
+  {
+    icon: "fa-solid fa-lock",
+    label: 'Lock',
+  },
+  flag:
+  {
+    icon: "fa-solid fa-flag",
+    label: 'Due',
+  },
 }
 
 export default iconsMap;

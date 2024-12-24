@@ -1,0 +1,40 @@
+.task-display-controls {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: var(--medium-padding);
+  gap: var(--large-padding);
+}
+
+.task-display-controls button,
+.sort-task-input,
+.filter-task-input,
+.task-count-display {
+  flex: 1;
+  padding: var(--medium-padding);
+}
+
+.task-count-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(var(--light-contrast-clr));
+  border-radius: var(--small-padding);
+}
+
+.sort-task-input,
+.filter-task-input {
+  border-radius: var(--small-padding);
+  border: 1px solid rgba(var(--dark-contrast-clr), 1);
+}
+
+.filter-task-button,
+.sort-task-button {
+  background-color: rgba(var(--light-contrast-clr));
+  color: rgba(var(--text-clr));
+}
+
+.delete-task-button {
+  background-color: rgba(var(--not-started-clr), 1);
+}
+

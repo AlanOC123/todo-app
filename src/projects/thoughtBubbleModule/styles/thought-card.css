@@ -1,0 +1,113 @@
+.thought-card {
+  display: flex;
+  padding: 0.4em;
+  border-radius: 0.8em;
+  gap: 0.4em;
+  background-color: rgba(var(--contrast-clr), 1);
+  transition: background-color 300ms ease;
+  position: relative;
+}
+
+.thought-card:hover {
+  background-color: rgba(215, 215, 215);
+}
+
+.thought-card-user-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.thought-card-user-image {
+  width: 5em;
+  aspect-ratio: 1/1;
+  border-radius: 0.4em;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.thought-information {
+  flex: 4;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.name-timestamp-wrapper {
+  display: flex;
+  gap: 0.8em;
+}
+
+.thought-card-user-name {
+  font-size: var(--small-font);
+  font-family: 'latobold';
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.thought-card-user-name.system {
+  color: rgba(150, 150, 150);
+}
+
+.thought-card-time-stamp {
+  color: rgba(150, 150, 150);
+  font-size: var(--small-font);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.thought-card:hover .thought-card-time-stamp,
+.thought-card:hover .thought-card-user-name.system {
+  color: rgba(var(--text-clr), 1);
+}
+
+.thought-card-buttons {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  transition: opacity 300ms ease, background-color 300ms ease;
+  border-radius: 0.4em;
+  padding: 0.2em;
+  gap: 0.4em;
+  background-color: rgba(var(--contrast-clr), 1);
+}
+
+.mark-important-button,
+.delete-thought-button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.4em;
+  transition: background-color 300ms ease;
+}
+
+.mark-important-button {
+  background-color: rgba(var(--contrast-clr), 1);
+  color: rgba(var(--text-clr), 1);
+}
+
+.delete-thought-button {
+  background-color: rgba(var(--not-started-clr), 1);
+  color: rgba(var(--contrast-clr), 1);
+}
+
+.mark-important-button:hover:not(.important-thought) {
+  background-color: rgba(215, 215, 215);
+}
+
+.mark-important-button.important-thought {
+  background-color: rgba(var(--complete-clr), 1);
+  color: rgba(var(--contrast-clr), 1);
+}
+
+.thought-card:hover .thought-card-buttons {
+  opacity: 1;
+}

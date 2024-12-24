@@ -1,0 +1,16 @@
+@import url('./thought-bubble-header.css');
+@import url('./thought-bubble-viewport.css');
+@import url('./thought-bubble-controls.css');
+@import url('./thought-card.css');
+
+.thought-bubble {
+  grid-column: 8 / -1;
+  grid-row: 1 / -1;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 70% 1fr;
+  gap: 1.6em;
+  padding: 1.6em;
+  overflow: hidden;
+}

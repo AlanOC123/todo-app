@@ -1,0 +1,86 @@
+.project-task-card {
+  display: flex;
+  flex: 0 1 auto;
+  border-radius: 0.4em;
+  background-color: rgba(var(--contrast-clr, 1));
+  transition: background-color 300ms ease;
+  gap: 0.8em;
+  padding: 0.8em;
+}
+
+.project-task-card:hover {
+  background-color: rgba(215, 215, 215);
+}
+
+.project-task-card:hover .project-task-card-name,
+.project-task-card:hover .project-task-card-priority {
+  background-color: rgba(215, 215, 215);
+}
+
+.mark-project-task-status-button,
+.project-task-card-duration,
+.delete-project-task-button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.4em;
+}
+
+.project-task-card-name,
+.project-task-card-name-input {
+  flex: 5;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  border: 1px solid transparent;
+  background-color: rgba(var(--contrast-clr, 1));
+  border-radius: 0.4em;
+  transition: border 300ms ease, background-color 300ms ease;
+  padding-inline: 0.8em;
+}
+
+.project-task-card:hover .project-task-card-name:hover,
+.project-task-card:hover .project-task-card-name-input:focus,
+.project-task-card:hover .project-task-card-priority:hover,
+.project-task-card:hover .project-task-card-priority-input:hover,
+.project-task-card:hover .project-task-card-priority-input:focus,
+.project-task-card:hover .project-task-card-priority-input:active {
+  background-color: rgba(var(--contrast-clr, 1));
+}
+
+.project-task-card-name-input:focus {
+  border: 1px solid rgba(150, 150, 150);
+}
+
+.project-task-card-priority,
+.project-task-card-priority-input {
+  flex: 2;
+  background-color: rgba(var(--contrast-clr, 1));
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  transition: border 300ms ease, background-color 300ms ease;
+  border-radius: 0.4em;
+  padding-inline: 0.8em;
+}
+
+.mark-project-task-status-button {
+  transition: background-color 300ms ease;
+}
+
+.mark-project-task-status-button:hover {
+  background-color: rgba(var(--contrast-clr, 1));
+  color: rgba(var(--complete-clr), 1);
+}
+
+.delete-project-task-button .icon {
+  border-radius: 0.8em;
+  background-color: rgba(var(--not-started-clr));
+  transition: transform 300ms ease;
+}
+
+.delete-project-task-button:hover .icon {
+  transform: translateY(-2px);
+  color: rgba(var(--contrast-clr), 1);
+}

@@ -1,0 +1,29 @@
+.select-project-viewport {
+  flex: 9;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1.6em;
+  padding: 0.8em;
+  overflow-y: auto;
+}
+
+.new-project {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: rgba(150, 150, 150);
+  background-color: rgba(var(--contrast-clr), 1);
+  transition: background-color 300ms ease;
+  border-radius: 0.4em;
+}
+
+.new-project .icon {
+  padding: 0.8em;
+}
+
+.new-project:hover {
+  background-color: rgba(215, 215, 215);
+  color: rgba(var(--text-clr), 1);
+}

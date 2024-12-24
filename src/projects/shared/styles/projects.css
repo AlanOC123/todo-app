@@ -1,13 +1,12 @@
+@import url('../../projectViewportModule/styles/project-viewport-module.css');
 @import url('../../selectProjectModule/styles/select-project-module.css');
-@import url('../components/projectTaskCard/styles//project-task-card.css');
-@import url('../../projectDetailsModule/styles/project-details-module.css');
-@import url('../../projectViewportModule//styles//project-viewport-module.css');
+@import url('../../thoughtBubbleModule/styles/thought-bubble-module.css');
 
 #projects {
   display: grid;
   font-size: clamp(0.4rem, 0.25vw + 0.5em, 1.6em);
-  grid-template-columns: 30em 1fr;
-  grid-template-rows: 10% 1fr;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 1fr;
   transition: grid 300ms ease;
   row-gap: 1.6em;
 }

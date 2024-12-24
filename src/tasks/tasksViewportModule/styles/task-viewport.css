@@ -1,0 +1,32 @@
+@import url('../components/taskDisplayControls/styles/task-display-controls.css');
+@import url('./task-display.css');
+
+.task-viewport {
+  grid-row: 1 / -1;
+  grid-column: 3 / 9;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-block-end: var(--medium-padding);
+}
+
+.task-viewport-header {
+  font-size: var(--large-font);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--small-padding);
+  flex: 1;
+  padding-inline: var(--large-padding);
+  padding-block: var(--medium-padding);
+  color: rgba(var(--dark-contrast-clr));
+}
+
+.task-viewport-header-category-name,
+.task-viewport-header-filter,
+.task-viewport-header-sort {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(var(--text-clr), 1);
+}

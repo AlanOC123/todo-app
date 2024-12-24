@@ -1,0 +1,82 @@
+.task-date-controls {
+  grid-row: 1 / -1;
+  grid-column: 9 / 11;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.task-date-controls-header {
+  flex: 1;
+  display: flex;
+  font-size: var(--medium-font);
+  font-family: 'latobold';
+  padding: var(--large-padding);
+  color: rgba(var(--dark-contrast-clr), 1);
+  justify-content: end;
+  align-items: center;
+}
+
+.task-date-controls-date-select {
+  flex: 1;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: var(--medium-padding);
+  padding: var(--medium-padding);
+}
+
+.task-date-controls-date-select-text {
+  color: rgba(var(--dark-contrast-clr), 1);
+  padding: var(--small-padding);
+}
+
+.task-date-controls-date-select-input {
+  color: rgba(var(--dark-contrast-clr), 1);
+  font-size: var(--regular-font);
+  padding: var(--small-padding);
+  transition: border 300ms ease;
+  border: 1px solid transparent;
+  border-radius: var(--small-padding);
+}
+
+.task-date-controls-date-select-input:hover {
+  border: 1px solid rgba(var(--light-contrast-clr), 1);
+}
+
+.task-date-controls-quick-select {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  gap: var(--small-padding);
+  padding: var(--medium-padding);
+}
+
+.task-date-controls-quick-select-card {
+  flex: 1;
+  border-radius: var(--small-padding);
+  transition: border 300ms ease, background-color 300ms ease;
+  border: 1px solid rgba(var(--light-contrast-clr), 1);
+  background-color: rgba(var(--contrast-clr), 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(var(--dark-contrast-clr), 1);
+  font-family: 'latobold';
+}
+
+.task-date-controls-quick-select-card:hover {
+  background-color: rgba(var(--light-contrast-clr), 1);
+  color: rgba(var(--text-clr), 1);
+}
+
+.task-date-controls-eisenhower-toggle {
+  flex: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-date-controls-eisenhower-toggle-button {
+  padding: var(--large-padding);
+}

@@ -1,0 +1,67 @@
+.project-task-viewport-display {
+  flex: 7;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin-inline: 0.8em;
+  gap: 0.8em;
+}
+
+.project-task-viewport-header {
+  flex: 0 1 6em;
+  display: flex;
+  gap: 0.8em;
+  border-bottom: 1px solid rgba(215, 215, 215);
+  padding: 0.8em;
+}
+
+.project-task-viewport-header p {
+  display: flex;
+  align-items: center;
+  color: rgba(150, 150, 150);
+}
+
+.project-task-delete-header {
+  flex: 1;
+  justify-content: center;
+}
+
+.project-task-name-header {
+  flex: 5;
+  justify-content: start;
+  padding-inline: 0.8em;
+}
+
+.project-task-priority-header {
+  flex: 2;
+  padding-inline: 0.8em;
+}
+
+.project-task-complete-header {
+  flex: 1;
+  justify-content: center;
+}
+
+.project-task-duration-header {
+  flex: 1;
+  justify-content: center;
+}
+
+.project-task-display {
+  flex: 9;
+  padding-bottom: 0.4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 0.8em;
+}
+
+.project-task-display.empty {
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-viewport-message .empty-message-icon {
+  font-size: var(--extra-large-font);
+}

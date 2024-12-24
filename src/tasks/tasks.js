@@ -1,16 +1,14 @@
 import tasksPage from "./shared/components/tasksPage";
-import header from "../shared/components/header";
-import taskDisplayControlsModule from "./taskDisplayControlsModule/taskDisplayControlsModule";
-import selectDaysofWeekModule from "./selectDayofWeekModule/selectDaysofWeekModule";
-import sortByControlsModule from "./taskDisplaySortByControls/sortByControlsModule";
-import tasksDisplayModule from "./taskDisplayModule/tasksDisplayModule";
+import selectCategoryModule from './selectCategoryModule/selectCategoryModule';
+import taskViewportModule from './tasksViewportModule/tasksViewportModule';
+import taskDateControlsModule from './taskDateControlsModule/taskDateControlsModule';
 
-export default (function tasks() {
-  return tasksPage(
-    header("Tasks"),
-    taskDisplayControlsModule,
-    selectDaysofWeekModule,
-    sortByControlsModule,
-    tasksDisplayModule,
+export default (function tasks() 
+{
+  return tasksPage
+  (
+    selectCategoryModule,
+    taskViewportModule,
+    taskDateControlsModule,
   );
 })();

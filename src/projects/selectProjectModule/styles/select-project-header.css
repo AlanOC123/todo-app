@@ -1,0 +1,21 @@
+.select-project-header {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: var(--medium-padding);
+  gap: var(--medium-padding);
+}
+
+.select-project-header-icon,
+.select-project-header-icon svg,
+.select-project-header-icon:hover svg
+.select-project-header-icon svg:hover {
+  background-color: transparent;
+  padding: var(--small-padding);
+}
+
+.select-project-header-text {
+  color: rgba(var(--text-clr), 1);
+}

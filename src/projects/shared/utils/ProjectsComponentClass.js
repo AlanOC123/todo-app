@@ -1,240 +1,250 @@
-import { format } from "date-fns";
-import projectsEventsManager from "./projectEventsManager";
-import projectEvents from "../events/projectsEvents";
-import projectViewportComponentCard from "../../projectViewportModule/components/projectViewportComponentCard/projectViewportComponentCard";
+import projectViewportEventsManager from "../../projectViewportModule/events/projectViewportEventsManager";
+import projectViewportEvents from "../../projectViewportModule/events/projectViewportEvents";
 
-export default class ProjectComponentsClass
-{
-  #componentName;
+import {
+  format,
+  parse,
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+} from "date-fns";
+import componentCard from "../../selectProjectModule/components/componentCard/componentCard";
+import projectsPageEventsManager from "../events/projectsPageEventsManager";
+import projectPageEvents from "../events/projectsPageEvents";
+import ThoughtBubble from "./ThoughtBubbleClass";
+import thoughtBubbleEventsManager from "../../thoughtBubbleModule/events/thoughtBubbleEventsManager";
+import thoughtBubbleEvents from "../../thoughtBubbleModule/events/thoughtBubbleEvents";
+export default class ProjectComponentsClass {
   #componentID;
+  #componentName;
+  #parentProject;
+  #isComponentActive;
+  #componentStartDate;
+  #componentCompleteDate;
   #componentCreatedAt;
-  #componentModifiedAt;
-  #componentCompletedAt;
-  #isComponentComplete;
-  #isComponentImportant;
-  #componentStatus
-  #componentTaskList;
-  #componentTaskCount;
-  #componentCompleteTaskCount;
-  #componentInCompleteTaskCount;
-  #projectComponentIsRelatedTo;
-  #componentViewportCard;
+  #componentLastModified;
+  #componentStatus;
+  #componentTasks;
+  #componentTaskFilter;
+  #componentCard;
 
-  #setComponentID = () =>
-  {
-    let identifierValue = '';
-    for (let i = 0; i < 10; i++)
+  #parseDate = (dateString, format = "dd-MM-yyyy") =>
+    parse(dateString, format, new Date());
+
+  #formatStandardDate = (dateObject) => format(dateObject, "dd-MM-yyyy");
+
+  #formatDateISO = (dateObject) =>
+    format(dateObject, "yyyy-MM-dd'T'HH:mm:ssXXX");
+
+  #formatDateForUI = (isoString) => format(isoString, "PP");
+
+  #generateNumericIdentifier = (length = 10) =>
+    Array.from({ length }, () => Math.floor(Math.random() * 10)).join("");
+
+  #resetCardClass = (property) => 
     {
-      const value = Math.floor(Math.random() * 9).toString();
-      identifierValue += value;
+      const map =
+      {
+        'Status': () => 
+        {
+          ['not-started', 'in-progress', 'overdue', 'complete'].forEach
+            (
+              className => this.#componentCard.classList.remove(className)
+            ) 
+        },
+        'Active': () =>
+        {
+          ['component-card-active'].forEach
+          (
+            className => this.#componentCard.classList.remove(className)
+          ) 
+        }
+      }
+  
+      map[property]();
     }
 
-    const projectName = this.#projectComponentIsRelatedTo ? this.#projectComponentIsRelatedTo.getProjectName().split(' ').join('_') : '';
+  #setComponentID = () => {
+    const componentName = this.#componentName
+      ? this.#componentName.split(" ").join("_")
+      : "Unnamed_Component";
 
-    const componetName = this.#componentName.split(' ').join('_');
+    const componentDate = this.#componentLastModified
+      ? `M:${this.#componentLastModified}`
+      : `C:${this.#componentCreatedAt}`;
 
-    const dateValue = this.#componentModifiedAt ? `M${this.#componentModifiedAt.split(' ').join('_')}` : `C${this.#componentCreatedAt.split(' ').join('_')}`;
+    this.#componentID = `${componentName}_${componentDate}_${this.#generateNumericIdentifier()}`;
+    projectsPageEventsManager.emit(projectPageEvents.componentIDChanged, { component: this });
+  };
 
-    this.#componentID = `${projectName}_${componetName}_${dateValue}_${identifierValue}`;
-  }
+  #setComponentLastModified = () => {
+    this.#componentLastModified = this.#formatDateISO(new Date());
+    projectsPageEventsManager.emit(projectPageEvents.componentLastModifiedChanged, { component: this });
+  };
 
-  #sortTasks = () =>
-  {
-    this.#componentCompleteTaskCount = 0;
-    this.#componentInCompleteTaskCount = 0;
-    this.#componentTaskCount = 0;
+  #setComponentStatus = () => {
+    const numberOfTasks = this.#componentTasks.length;
+    const numberOfCompleteTasks = this.#componentTasks.filter(
+      (task) => task.getIsTaskComplete()
+    ).length;
 
-    this.#componentTaskList.forEach
-    (
-      task => 
-      {
-        this.#componentTaskCount++;
-        if (task.getIsTaskComplete())
-        {
-          this.#componentCompleteTaskCount++
-        } else
-        {
-          this.#componentInCompleteTaskCount++;
-        }
-      }
-    )
-    this.#setIsComponentComplete();
-    projectsEventsManager.emit(projectEvents.projectComponentUpdated, { change: 'taskList', component: this });
-  }
+    this.#resetCardClass('Status');
 
-  #setIsComponentComplete = () => 
-  {
-    if (this.#componentInCompleteTaskCount !== 0)
-    {
-      this.#isComponentComplete = false;
-      this.#componentCompletedAt = null;
-    } else
-    {
-      this.#isComponentComplete = true;
-      this.#componentCompletedAt = format(new Date(), 'dd-MM-yyyy HH:mm:ss') ;
+    if (
+      numberOfTasks > 0 &&
+      numberOfTasks === numberOfCompleteTasks
+    ) {
+      this.#componentStatus = "Complete";
+      this.#componentCompleteDate = this.#componentCompleteDate || new Date();
+      this.#componentCard.classList.add("complete");
+    } else if (numberOfCompleteTasks > 0) {
+      this.#componentStatus = "In-Progress";
+      this.#componentCompleteDate = null;
+      this.#componentCard.classList.add("in-progress");
+    } else {
+      this.#componentStatus = "Not-Started";
+      this.#componentCompleteDate = null;
+      this.#componentCard.classList.add("not-started");
     }
 
-    this.#setComponentModifiedAt();
-    projectsEventsManager.emit(projectEvents.projectComponentUpdated, { change: 'componentComplete', component: this });
-  }
+    projectsPageEventsManager.emit(projectPageEvents.componentStatusChanged, { component: this });
+  };
 
-  #setComponentModifiedAt = () => 
-  { 
-    this.#componentModifiedAt = format(new Date(), 'dd-MM-yyyy HH:mm:ss')
-    this.#setComponentID();
-    this.#componentViewportCard.dataset.id = this.#componentID;
-    projectsEventsManager.emit(projectEvents.projectComponentUpdated, { change: 'componentID', component: this });
-  }
-
-  #setEvents = () => 
-    { 
-      function projectChanged({ change, project })
-      {
-        if (change !== 'projectID')
-        {
-          return;
-        }
-        
-        if (project === this.#projectComponentIsRelatedTo)
-        {
-          this.#setComponentModifiedAt();
-        }
-      }
-
-      function taskChanged({ change, task })
-      {
-        if (task.getComponentTaskIsRelatedTo() !== this)
-        {
-          return;
-        }
-
-        if (change === 'taskCompletion')
-        {
-          this.#sortTasks();
-        }
-      }
-
-      projectsEventsManager.on(projectEvents.projectUpdated, projectChanged.bind(this));
-      projectsEventsManager.on(projectEvents.projectTaskUpdated, taskChanged.bind(this));
-    };
-
-  constructor
-  (
-    taskStatus = 'Not-Started',
-  )
+  #setEvents = () =>
   {
-    this.#componentName = 'New Component';
+    projectViewportEventsManager.on(projectViewportEvents.projectTaskStatusChanged, this.#setComponentStatus.bind(this))
+  }
+
+  constructor(parentProject) {
+    const now = new Date();
     this.#componentID = null;
-    this.#componentCreatedAt = format(new Date(), 'dd-MM-yyyy HH:mm:ss');
-    this.#componentModifiedAt = null;
-    this.#componentCompletedAt = null;
-    this.#isComponentComplete = false;
-    this.#isComponentImportant = false;
-    this.#componentStatus = taskStatus;
-    this.#componentTaskList = [];
-    this.#componentTaskCount = 0;
-    this.#componentCompleteTaskCount = 0;
-    this.#componentInCompleteTaskCount = 0;
-    this.#projectComponentIsRelatedTo = null;
-    this.#componentViewportCard = this.createComponentSection();
+    this.#componentName = "Type Component Name";
+    this.#parentProject = parentProject;
+    this.#isComponentActive = false;
+    this.#componentStartDate = this.#formatStandardDate(now);
+    this.#componentCompleteDate = null;
+    this.#componentCreatedAt = now;
+    this.#componentLastModified = null;
+    this.#componentStatus = "Not-Started";
+    this.#componentTasks = [];
+    this.#componentTaskFilter = 'All Tasks';
+    this.#componentCard = componentCard(this);
     this.#setComponentID();
     this.#setEvents();
   }
 
-  setComponentName = newComponentName => 
-  {
-    if (newComponentName === this.#componentName)
-    {
+  setComponentName = (newComponentName) => {
+    if (!newComponentName) {
       return;
     }
 
-    const minLength = 3;
-    const maxLength = 30;
+    const MIN = 2;
+    const MAX = 30;
 
-    if 
-    (
-      (newComponentName)
-      && (newComponentName.length > minLength)
-      && (newComponentName.length < maxLength)
-    )
-    {
-      this.#componentName = newComponentName;
-      this.#setComponentModifiedAt();
-      projectsEventsManager.emit(projectEvents.projectComponentUpdated, { change: 'componentName', component: this });
-    }
-  }
-
-  setComponentStatus = newStatus => { this.#componentStatus = newStatus }
-
-  addComponentTask = taskToBeAdded =>
-  {
-    if (!taskToBeAdded)
-    {
+    if (newComponentName.length < MIN || newComponentName.length > MAX) {
       return;
     }
 
-    taskToBeAdded.setComponentTaskIsRelatedTo(this);
-    this.#componentTaskList.push(taskToBeAdded);
-    this.#sortTasks();
-  }
+    this.#componentName = newComponentName;
+    this.#setComponentLastModified();
+    this.#setComponentID();
+    projectsPageEventsManager.emit(projectPageEvents.componentNameChanged, { component: this });
+  };
 
-  removeComponentTask = taskToBeDeleted =>
-  {
-    const taskIndex = this.#componentTaskList.findIndex(task => task.getTaskID === taskToBeDeleted.getTaskID);
-
-    if (taskIndex === -1)
-    {
+  setIsComponentActive = (newStatus) => {
+    if (![true, false].includes(newStatus)) {
       return;
     }
 
-    this.#componentTaskList.splice(taskIndex, 1);
-    this.#sortTasks();
-  }
+    this.#resetCardClass('Active');
 
-  setIsComponentImportant = newImportanceStatus => 
-  { 
-    const previousValue = this.#isComponentImportant;
+    this.#isComponentActive = newStatus;
 
-    if (previousValue === newImportanceStatus)
+    if (this.#isComponentActive)
     {
+      this.#componentCard.classList.add('component-card-active');
+    };
+
+    projectsPageEventsManager.emit(projectPageEvents.componentIsActiveChanged, { component: this });
+  };
+
+  addTask = (newTask) => 
+  {
+    if (!newTask) return;
+
+    this.#componentTasks.push(newTask);
+    this.#setComponentStatus();
+    this.#setComponentLastModified();
+    const newThought = new ThoughtBubble(this.#parentProject, true);
+    newThought.setThoughtContent(`Task Added`);
+    this.#parentProject.addThought(newThought);
+    thoughtBubbleEventsManager.emit(thoughtBubbleEvents.messageAdded, { newThought: newThought });
+    projectViewportEventsManager.emit(projectViewportEvents.projectTaskAdded, { projectTaskCardElement: newTask.getTaskCard() });
+  };
+
+  deleteTask = (selectedTask) => 
+  {
+    if (!selectedTask) return;
+
+    const index = this.#componentTasks.findIndex(
+      (task) => task === selectedTask
+    );
+
+    if (index === -1) {
       return;
     }
 
-    this.#isComponentImportant = newImportanceStatus;
-    this.#setComponentModifiedAt();
-    projectsEventsManager.emit(projectEvents.projectComponentUpdated, { change: 'componentImportance', component: this });
-  }
+    this.#componentTasks.splice(index, 1);
+    this.#setComponentStatus();
+    this.#setComponentLastModified();
+    projectViewportEventsManager.emit(projectViewportEvents.projectTaskDeleted, { projectTaskCardElement: selectedTask.getTaskCard() });
+    const newThought = new ThoughtBubble(this.#parentProject, true);
+    newThought.setThoughtContent(`Task Deleted`);
+    this.#parentProject.addThought(newThought);
+    thoughtBubbleEventsManager.emit(thoughtBubbleEvents.messageAdded, { newThought: newThought });
+  };
 
-  setProjectComponentIsRelatedTo = newProject =>
+  setComponentTaskFilter = (filterValue) =>
   {
-    if (!newProject)
-    {
-      return;
-    }
-
-    this.#projectComponentIsRelatedTo = newProject;
-    this.#setComponentModifiedAt();
+    this.#componentTaskFilter = filterValue;
+    projectViewportEventsManager.emit(projectViewportEvents.projectTaskFilterChanged); 
   }
-  
-  createComponentSection = () =>
-  {
-    const card = projectViewportComponentCard(this);
+  getComponentID = () => this.#componentID;
 
-    return card;
-  }
+  getComponentName = () => this.#componentName;
 
-  getComponentName = () => { return this.#componentName; }
-  getComponentID = () => { return this.#componentID; }
-  getComponentCreatedAt = () => { return this.#componentCreatedAt };
-  getComponentModifiedAt = () => { return this.#componentModifiedAt };
-  getComponentCompletedAt = () => { return this.#componentCompletedAt };
-  getIsComponentComplete = () => { return this.#isComponentComplete; }
-  getIsComponentImportant = () => { return this.#isComponentImportant; }
-  getComponentStatus = () => { return this.#componentStatus };
-  getComponentTaskList = () => { return this.#componentTaskList; }
-  getComponentTaskCount = () => { return this.#componentTaskCount; }
-  getComponentCompletedTaskCount = () => { return this.#componentCompleteTaskCount; }
-  getComponentInCompleteTaskCount = () => { return this.#componentInCompleteTaskCount; };
-  getProjectComponentIsRelatedTo = () => { return this.#projectComponentIsRelatedTo; }
-  getComponentCard = () => { return this.#componentViewportCard };
+  getComponentParentProject = () => this.#parentProject;
+
+  getIsComponentActive = () => this.#isComponentActive ? "Yes" : "No";
+
+  getComponentStartDate = () => this.#formatDateForUI(this.#parseDate(this.#componentStartDate));
+
+  getComponentCompleteDate = () => this.#componentCompleteDate;
+
+  getComponentCreatedAt = () => this.#formatDateForUI(this.#componentCreatedAt);
+
+  getComponentModifiedAt = () =>
+    this.#componentLastModified
+      ? this.#formatDateForUI(this.#componentLastModified)
+      : "Un-Modified";
+
+  getComponentStatus = () => this.#componentStatus;
+
+  getComponentTasks = () => this.#componentTasks;
+
+  getComponentTaskFilter = () => this.#componentTaskFilter;
+
+  getComponentCard = () => this.#componentCard;
+
+  getComponentDuration = () => {
+    const now = new Date();
+    const dayDiff = differenceInDays(now, this.#componentCreatedAt);
+    const hrDiff = differenceInHours(now, this.#componentCreatedAt);
+    const minDiff = differenceInMinutes(now, this.#componentCreatedAt);
+
+    if (dayDiff > 0) return `${dayDiff} Day${(dayDiff > 1 ? 's' : '')}`;
+    if (hrDiff > 0) return `${hrDiff} Hr${(hrDiff > 1 ? 's' : '')}`;
+    if (minDiff > 0) return `${minDiff} Min${(minDiff > 1 ? 's' : '')}`;
+    return '< 1min';
+  };
 }

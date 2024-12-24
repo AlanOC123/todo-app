@@ -91,7 +91,10 @@ function isSVGType(type) {
 		'polyline',
 		'g',
 		'defs',
+		'mask',
 		'filter',
+		'linearGradient',
+		'stop',
 		'feGaussianBlur',
 		'feColorMatrix',
 		'feBlend',
@@ -128,6 +131,13 @@ function isSVGAttribute(attribute) {
 		'mode',
 		'values',
 		'in2',
+		'x1',
+		'x2',
+		'y1',
+		'y2',
+		'offset',
+		'gradientUnits',
+		'gradientTransform',
 	].includes(attribute);
 }
 

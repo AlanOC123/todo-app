@@ -1,0 +1,45 @@
+.category-card {
+  display: flex;
+  padding: var(--medium-padding);
+  color: rgba(var(--text-clr), 1);
+  background-color: rgba(var(--contrast-clr), 1);
+  transition: background-color 300ms ease;
+  border-radius: var(--medium-padding);
+}
+
+.category-card:hover {
+  background-color: rgba(var(--light-contrast-clr), 1);
+}
+
+.category-card-name,
+.category-card-name-input {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex: 3;
+}
+
+.category-card-icon,
+.category-card-count,
+.category-card-button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: flex 300ms ease;
+}
+
+.category-card-count.hidden {
+  flex: 0;
+  overflow: hidden;
+}
+
+.category-card-delete-icon svg {
+  background-color: inherit;
+  transition: background-color 300ms ease;
+}
+
+.category-card-delete-icon:hover svg {
+  background-color: rgba(var(--not-started-clr), 1);
+  color: rgba(var(--contrast-clr), 1);
+}

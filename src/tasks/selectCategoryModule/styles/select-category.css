@@ -1,0 +1,67 @@
+@import url('./category-card.css');
+
+.select-task-category {
+  grid-row: 1 / -1;
+  grid-column: 1 / 3;
+
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(var(--light-contrast-clr), 1);
+}
+
+.select-category-header {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  padding: var(--medium-padding);
+  gap: var(--medium-padding);
+}
+
+.select-category-header-icon .icon,
+.select-category-header-icon .icon svg,
+.select-category-header-icon .icon:hover svg
+.select-category-header-icon .icon svg:hover {
+  background-color: transparent;
+  padding: var(--small-padding);
+}
+
+.select-category-viewport {
+  flex: 9;
+
+  display: flex;
+  flex-direction: column;
+  padding: var(--medium-padding);
+  gap: var(--medium-padding);
+}
+
+.new-category-card {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: rgba(150, 150, 150);
+  background-color: rgba(var(--contrast-clr), 1);
+  transition: background-color 300ms ease;
+  border-radius: var(--small-padding);
+}
+
+.new-category-card .icon {
+  padding: var(--medium-padding);
+}
+
+.new-category-card:hover,
+.all-tasks-card:hover {
+  background-color: rgba(215, 215, 215);
+  color: rgba(var(--text-clr), 1);
+}
+
+.all-tasks-card {
+  background-color: rgba(var(--contrast-clr), 1);
+  padding: var(--medium-padding);
+  border-radius: var(--small-padding);
+  transition: background-color 300ms ease;
+}
+
+.all-tasks-card p {
+  padding: var(--medium-padding);
+}

@@ -1,0 +1,123 @@
+.project-card {
+  display: flex;
+  flex-direction: column;
+  border-top-right-radius: 0.8em;
+  border-bottom-right-radius: 0.8em;
+  padding: 0.8em;
+  transition: background-color 300ms ease;
+  gap: 0.8em;
+  border-left: 0.2em solid rgba(var(--text-clr), 0.5);
+  background-color: rgba(var(--contrast-clr), 1);
+}
+
+.project-card:not(.project-card-active):hover {
+  background-color: rgba(215, 215, 215);
+}
+
+.project-card:not(.project-card-active).not-started {
+  border-left: solid 0.2em rgba(var(--not-started-clr), 1);
+}
+
+.project-card:not(.project-card-active).in-progress {
+  border-left: solid 0.2em rgba(var(--pending-clr), 1);
+}
+
+.project-card:not(.project-card-active).complete {
+  border-left: solid 0.2em rgba(var(--complete-clr), 1);
+}
+
+.project-card.project-card-active {
+  border-left: 0.4em solid rgba(var(--pri-clr), 1);
+  color: rgba(var(--contrast-clr), 1);
+}
+
+.project-card.project-card-active .project-card-name {
+  color: rgba(var(--text-clr), 1);
+}
+
+.project-card-due-date,
+.project-card-due-date-input {
+  color: rgba(var(--text-clr), 0.25);
+  margin-left: 0.8em;
+  width: 10em;
+}
+
+.project-card-due-date-input {
+  color: rgba(var(--text-clr), 0.5);
+  border: none;
+  padding: 0 0.4em;
+  background-color: rgba(var(--contrast-clr), 1);
+  border: solid 1px rgba(var(--not-started-clr), 1);
+  border-radius: 0.4em;
+}
+
+.project-card-name-input.error {
+  border: solid 1px rgba(var(--not-started-clr), 1);
+}
+
+.project-card-name,
+.project-card-name-input  {
+  color: rgba(var(--text-clr), 1);
+  width: 15em;
+  border: none;
+  border-radius: 0.4em;
+}
+
+.project-card-viewport-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid 300ms ease;
+}
+
+.project-card-viewport {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  color: rgba(var(--text-clr), 1);
+}
+
+.project-card.project-card-active .project-card-viewport-wrapper {
+  grid-template-rows: 1fr;
+  padding: 0.8em;
+}
+.project-card-data {
+  display: flex;
+  align-items: center;
+}
+
+.project-card-info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.delete-project {
+  flex: 0 1 3em;
+  background-color: rgba(var(--not-started-clr), 1);
+  border-radius: 0.8em;
+  transition: transform 300ms ease;
+}
+
+.delete-project:hover {
+  transform: translateY(-2px);
+}
+
+.new-component {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.2em;
+  color: rgba(150, 150, 150);
+  background-color: rgba(var(--contrast-clr), 1);
+  transition: background-color 300ms ease;
+  border-radius: 0.4em;
+}
+
+.new-component:hover {
+  background-color: rgba(215, 215, 215);
+  color: rgba(var(--text-clr));
+}

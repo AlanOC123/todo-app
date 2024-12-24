@@ -1,0 +1,16 @@
+.task-display {
+  flex: 5;
+  display: flex;
+  padding: var(--medium-padding);
+  gap: var(--medium-padding);
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+
+.task-display::-webkit-scrollbar {
+  display: none;
+}
+
+.task-display:hover::-webkit-scrollbar {
+  display: block;
+}

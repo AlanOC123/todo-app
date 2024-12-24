@@ -1,20 +1,19 @@
 import ElementData from "../../shared/utils/ElementData";
-import projectViewportDisplay from "./components/projectViewportDisplay";
-import projectViewportHeader from "./components/projectViewportHeader";
+import projectViewportHeader from "./components/projectViewportHeader/projectViewportHeader";
+import projectViewportControls from "./components/projectViewportControls/projectViewportControls";
+import projectTaskViewport from "./components/projectTaskViewport/projectTaskViewport";
 
 export default (function projectViewportModule() 
 {
-  const header = projectViewportHeader();
-  const viewport = projectViewportDisplay();
-
   const element = new ElementData
   (
     'div',
     'project-viewport',
     {},
     [
-      header,
-      viewport
+      projectViewportHeader(),
+      projectViewportControls(),
+      projectTaskViewport(),
     ]
   ).renderElement();
 
