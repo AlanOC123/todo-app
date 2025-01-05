@@ -1,6 +1,4 @@
-@import url('../../navigationModule/styles/navigation.css');
-@import url('../../viewportModule//styles//viewport.css');
-
+@import url('./navigation.css');
 
 #dashboard {
   background: linear-gradient(
@@ -14,10 +12,18 @@
   position: relative;
   z-index: 0;
   overflow: hidden;
-  padding-top: 2.5%;
-  padding-bottom: 0.5%;
-  padding-right: 0.5%;
+  padding-top: 2.4em;
+  padding-bottom: var(--medium-padding);
+  padding-right: var(--large-padding);
   display: grid;
-  grid-template-columns: minmax(3em, 3%) 1fr;
+  grid-template-columns: minmax(15em, 15%) 1fr;
   grid-template-rows: 1fr;
+}
+
+#data-viewport {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(var(--contrast-clr), 1);
+  border-radius: var(--medium-padding);
+  position: relative;
 }

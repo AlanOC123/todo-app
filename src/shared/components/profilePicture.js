@@ -1,21 +1,13 @@
-import ElementData from "../utils/ElementData";
-import updateProfilePicture from "../utils/updateProfilePicture";
-import eventsManager from "../utils/eventsManager";
-import events from "../events/events";
+import ElementData from "../../utils/ElementData";
 
-export default function profilePicture(id)
-{
-  const element = new ElementData
-  (
-    'div',
-    'profile-picture',
+export default function profilePicture(id) {
+  const element = new ElementData(
+    "div",
+    "profile-picture",
     {
-      id: id
+      id: id,
     },
     []
-  ).renderElement()
-
-  updateProfilePicture(element);
-  eventsManager.on(events.pictureChanged, () => updateProfilePicture(element));
+  ).renderElement();
   return element;
 }

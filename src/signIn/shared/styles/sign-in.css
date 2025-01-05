@@ -1,0 +1,17 @@
+@import url('./select-profile.css');
+@import url('./user-card.css');
+@import url('./create-user-profile.css');
+
+.sign-in {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    to bottom left,
+    rgba(var(--pri-clr), 1),
+    rgba(var(--sec-clr), 1)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-image 300ms ease;
+}

@@ -1,4 +1,4 @@
-import TimeManagerClass from "./TimeManagerClass";
+import TimeManagerClass from "../../utils/TimeManagerClass";
 
 const timeManager = new TimeManagerClass();
 

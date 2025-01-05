@@ -1,0 +1,30 @@
+.select-profile {
+  width: 90%;
+  height: 90%;
+  border-radius: var(--medium-padding);
+  padding: var(--large-padding);
+  gap: var(--large-padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  background-color: rgba(var(--contrast-clr), 0.75);
+}
+
+.select-profile-header {
+  width: 50%;
+  flex: 1;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: var(--medium-padding);
+  border-bottom: 1px solid rgba(var(--light-text-clr), 1);
+}
+
+.select-user-card-display {
+  width: 50%;
+  flex: 9;
+  display: flex;
+  flex-direction: column;
+  gap: var(--medium-padding);
+}

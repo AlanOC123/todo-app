@@ -1,5 +1,4 @@
-import EventsManager from "./eventsManager";
-import events from "../events/events";
+import { appEvents, appEventsManager } from "../../events/appEvents";
 
 export default function timeController(intervalDuration = 1000) {
   let interval;
@@ -7,7 +6,7 @@ export default function timeController(intervalDuration = 1000) {
   function start() {
     if (interval) return;
     interval = setInterval(() => {
-      EventsManager.emit(events.updateTime);
+      globalEventsManager.emit(globalEvents.preserveSettings);
     }, intervalDuration);
   }
 
@@ -17,6 +16,9 @@ export default function timeController(intervalDuration = 1000) {
       interval = null;
     }
   }
+
+  globalEventsManager.on(globalEvents.sessionStarted, start);
+  globalEventsManager.on(globalEvents.sessionEnded, stop);
 
   return {
     start,

@@ -1,4 +1,4 @@
-import ElementData from "../utils/ElementData";
+import ElementData from "../../utils/ElementData";
 
 export default function pictureInput(id, name, accept = 'image/jpeg,jpg,png')
 {

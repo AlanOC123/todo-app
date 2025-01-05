@@ -1,4 +1,4 @@
-import ElementData from "../utils/ElementData";
+import ElementData from "../../utils/ElementData";
 
 function iconElement(iconClass) {
   return new ElementData("i", iconClass, {}, []).renderElement();

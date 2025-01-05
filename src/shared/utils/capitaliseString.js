@@ -1,4 +1,9 @@
-export default function capitaliseString(string)
+const capitaliseString = (strValue) =>
 {
-  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
+  return strValue.split(' ').map
+  (
+    str => (str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()).trim(),
+  ).join(' ');
+};
+
+export default capitaliseString;

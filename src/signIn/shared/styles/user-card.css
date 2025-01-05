@@ -1,0 +1,30 @@
+.user-card {
+  display: flex;
+  gap: var(--large-padding);
+  border-radius: var(--medium-padding);
+  border: 1px solid transparent;
+  padding: var(--large-padding);
+  transition: border 300ms ease, background-color 300ms ease;
+  cursor: pointer;
+}
+
+.user-card:hover {
+  background-color: rgba(var(--acc-clr), 0.25);
+}
+
+.user-card-name {
+  flex: 5;
+  padding: var(--medium-padding);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.user-card-picture {
+  flex: 1;
+  border-radius: var(--small-padding);
+  aspect-ratio: 1/1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

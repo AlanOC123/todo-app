@@ -1,26 +1,24 @@
 @import url('./css-reset.css');
 @import url('../assets/fonts/lato-font-kit/stylesheet.css');
-@import url('./reusable.css');
 @import url('../../dashboard/shared/styles/dashboard.css');
-@import url('../../productivityTool/shared/styles/productivity-tool.css');
-@import url('../../home/shared/styles/home.css');
-@import url('../../tasks/shared/styles/tasks.css');
-@import url('../../projects/shared/styles/projects.css');
-@import url('../../calendar/shared/styles/calendar.css');
-@import url('../../stats/shared/styles/stats.css');
-@import url('../../userSettings/shared/styles/user-settings.css');
+@import url('../../signIn/shared/styles/sign-in.css');
 
 :root {
-  --pri-clr: ;
-  --sec-clr: ;
-  --acc-clr: ;
-  --contrast-clr: 253, 253, 253;
-  --light-contrast-clr: 215, 215, 215;
-  --dark-contrast-clr: 150, 150, 150;
-  --text-clr: 61, 61, 61;
+  --pri-clr: 13, 183, 219;
+  --sec-clr: 233, 85, 185;
+  --acc-clr: 75, 153, 185;
+  --contrast-clr: 252, 252, 252;
+  --light-contrast-clr: 210, 210, 210;
+  --dark-contrast-clr: 168, 168, 168;
+  --light-text-clr: 126, 126, 126;
+  --text-clr: 84, 84, 84;
+  --dark-text-clr: 42, 42, 42;
   --not-started-clr: 222, 73, 115;
+  --dark-not-started-clr: 80, 23, 65;
   --pending-clr: 235, 173, 80;
+  --dark-pending-clr: 185, 133, 40;
   --complete-clr: 147, 235, 96;
+  --dark-complete-clr: 112, 200, 46;
   --extra-large-font: clamp(2em, 1.5vw + 2em, 4em);
   --large-font: clamp(1.6em, 0.75dvw + 1.6em, 2.4em);
   --medium-font: clamp(1.2em, 0.5dvw + 1.2em, 1.6em);
@@ -85,23 +83,7 @@ h4 {
   display: flex;
 }
 
-.section-header::after {
-    position: absolute;
-    content: '';
-    width: 75%;
-    height: 2px;
-    border-radius: 2px;
-    background-image: linear-gradient(
-      90deg,
-      rgba(var(--pri-clr), 1) 0%,
-      rgba(var(--sec-clr), 0.5) 50%,
-      rgba(var(--acc-clr), 0) 100%
-    );
-    bottom: 0;
-    left: 0;
-}
-
-body, 
+body,
 p,
 label,
 input,
@@ -141,4 +123,12 @@ button {
 
 .error {
   border: 1px solid rgba(var(--not-started-clr), 1);
+}
+
+.card {
+  display: flex;
+  flex: 1;
+  background-color: rgba(var(--contrast-clr), 1);
+  border-radius: var(--small-padding);
+  font-size: var(--regular-font);
 }

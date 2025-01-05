@@ -1,11 +1,11 @@
-const iconsMap = 
+const iconsMap =
 {
-  health: 
+  health:
   {
     icon: "fa-solid fa-person-running",
     label: "Health & Fitness"
   },
-  education: 
+  education:
   {
     icon: "fa-solid fa-book",
     label: "Education",
@@ -15,7 +15,7 @@ const iconsMap =
     icon: "fa-solid fa-briefcase",
     label: "Professional"
   },
-  finance: 
+  finance:
   {
     icon: "fa-solid fa-money-bill-trend-up",
     label: 'Finance',
@@ -39,17 +39,17 @@ const iconsMap =
   {
     icon: "fa-solid fa-plus",
     label: "Create",
-  }, 
+  },
   home:
   {
     icon: 'fa-solid fa-house',
     label: "Home",
-  }, 
+  },
   tasks:
   {
     icon: 'fa-solid fa-list-check',
     label: "Tasks",
-  }, 
+  },
   projects:
   {
     icon: 'fa-solid fa-diagram-project',
@@ -80,7 +80,7 @@ const iconsMap =
     icon: "fa-solid fa-square-check",
     label: "Confirm",
   },
-  arrowRight: 
+  arrowRight:
   {
     icon: "fa-solid fa-circle-right",
     label: 'Next',
@@ -90,17 +90,17 @@ const iconsMap =
     icon: "fa-solid fa-circle-left",
     label: 'Previous'
   },
-  delete: 
+  delete:
   {
     icon: "fa-regular fa-trash-can",
     label: 'Delete',
   },
-  calculator: 
+  calculator:
   {
     icon: "fa-solid fa-calculator",
     label: 'Calculator',
   },
-  timer: 
+  timer:
   {
     icon: "fa-solid fa-clock",
     label: 'Timer',
@@ -130,7 +130,7 @@ const iconsMap =
     icon: "fa-solid fa-caret-down",
     label: 'Expand',
   },
-  complete: 
+  complete:
   {
     icon: "fa-solid fa-check",
     label: 'Complete',
@@ -199,6 +199,26 @@ const iconsMap =
   {
     icon: "fa-solid fa-flag",
     label: 'Due',
+  },
+  sort:
+  {
+    icon: "fa-solid fa-sort",
+    label: 'Sort',
+  },
+  filter:
+  {
+    icon: "fa-solid fa-filter",
+    label: 'Filter',
+  },
+  calendarSelect:
+  {
+    icon: "fa-solid fa-calendar-week",
+    label: 'Select Day',
+  },
+  themes:
+  {
+    icon: "fa-solid fa-paintbrush",
+    label: 'Themes',
   },
 }
 

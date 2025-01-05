@@ -1,27 +1,17 @@
-import createElement from "../utils/createElement";
-import ElementData from "../utils/ElementData";
-import label from "./label";
+import ElementData from "../../utils/ElementData";
 
-export function textInput(id, name, placeholder, maxlength) {
+export default function textInput(placeholderVal)
+{
   return new ElementData
   (
-    "input",
-    "",
+    'input',
+    'text-input',
     {
-      id: id,
-      name: name,
-      placeholder: placeholder,
-      type: "text",
-      maxlength: maxlength,
+      type: text,
+      min: 2,
+      max: 30,
+      placeholder: placeholderVal
     },
     []
-  ).renderElement()
-}
-
-export function textInputContainer(labelFor, labelText) {
-  return createElement(
-    new ElementData("div", "", {}, [
-      label(labelText, labelFor),
-    ]).createElementData()
-  );
+  ).renderElement();
 }

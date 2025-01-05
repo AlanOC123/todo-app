@@ -1,0 +1,37 @@
+#navigation {
+  height: 100%;
+  z-index: 1;
+  grid-row: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: var(--medium-padding);
+  position: relative;
+  padding: var(--small-padding);
+}
+
+#navigation .nav-card {
+  align-items: center;
+  max-height: fit-content;
+  padding-inline: var(--medium-padding);
+  padding-block: var(--medium-padding);
+  background-color: rgba(var(--contrast-clr), 0.5);
+  transition: background-color 300ms ease, transform 300ms ease;
+}
+
+#navigation .nav-card:hover {
+  background-color: rgba(var(--contrast-clr), 1);
+  transform: translateY(-2px);
+}
+
+#navigation .text-element {
+  flex: 4;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+#navigation .icon {
+  flex: 1;
+}

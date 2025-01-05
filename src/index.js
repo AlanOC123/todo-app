@@ -1,41 +1,21 @@
 import "./shared/styles/shared.css";
-import storageModule from "./shared/utils/storageModule";
+import appState from "./data/appState";
+import storageModule from "./storageModule";
+import signIn from "./signIn/signIn";
+import dashboard from "./dashboard/dashboard";
+import setup from "./setup";
+import { appEvents, appEventsManager } from "./events/appEvents";
 
 async function runApp() {
-  const { default: timeController } = await import(
-    "./shared/utils/timeController"
-  );
-  const { default: dashboard } = await import("./dashboard/dashboard");
-  const { default: eventsManager } = await import(
-    "./shared/utils/eventsManager"
-  );
-  const { default: events } = await import("./shared/events/events");
-  const { default: TimeManager } = await import("./shared/utils/timeManager");
-
-  eventsManager.on(events.updateTime, TimeManager.updateTime);
-
-  dashboard();
-
-  const { default: dashboardEventsManager } = await import(
-    "./dashboard/shared/utils/dashboardEventsManager"
-  );
-  const { default: dashboardEvents } = await import("./dashboard/shared/events/dashboardEvents");
-
-  const { default: pageRouter } = await import("./shared/events/pageRouter");
-
-  timeController().start();
-
-  pageRouter();
-
-  if (!storageModule.getSettings("init")) {
-    dashboardEventsManager.emit(dashboardEvents.renderSettings);
-  } else {
-    dashboardEventsManager.emit(dashboardEvents.renderTasks);
+  //storageModule.clearAll();
+  const currentUser = storageModule.getActiveUser();
+  if (!currentUser) document.body.append(signIn());
+  else
+  {
+    appEventsManager.emit(appEvents.sessionStarted);
+    (document.body.append(dashboard()));
   }
-
-  // const { default: productivityToolModule } = await import (
-  //   './productivityTool/productivityToolModule'
-  // )
 }
 
 document.addEventListener("DOMContentLoaded", runApp);
+window.addEventListener("beforeunload", () => appEventsManager.emit(appEvents.sessionEnded));
